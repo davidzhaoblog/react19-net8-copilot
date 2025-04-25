@@ -1,0 +1,6 @@
+@AdventureWorksLT2019.WebApi_HostAddress = http://localhost:5048
+
+GET {{AdventureWorksLT2019.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
