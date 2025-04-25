@@ -2,7 +2,7 @@
   "profiles": {
     "AdventureWorksLT2019.HttpTriggerFunctions": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7154",
+      "commandLineArgs": "--port 7260",
       "launchBrowser": false
     }
   }

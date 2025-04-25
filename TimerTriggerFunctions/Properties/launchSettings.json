@@ -2,7 +2,7 @@
   "profiles": {
     "AdventureWorksLT2019.TimerTriggerFunctions": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7193",
+      "commandLineArgs": "--port 7064",
       "launchBrowser": false
     }
   }

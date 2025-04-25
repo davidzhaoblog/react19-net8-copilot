@@ -43,6 +43,6 @@
     <ProjectReference Include="..\Shared\AdventureWorksLT2019.Shared.csproj" />
     <ProjectReference Include="..\Services\AdventureWorksLT2019.Services.csproj" />
     <ProjectReference Include="..\MSSqlRepositories\AdventureWorksLT2019.MSSqlRepositories.csproj" />
-    <ProjectReference Include="..\DbContext\AdventureWorksLT2019.DbContext.csproj" />
+    <ProjectReference Include="..\EFDbContext\AdventureWorksLT2019.EFDbContext.csproj" />
   </ItemGroup>
 </Project>

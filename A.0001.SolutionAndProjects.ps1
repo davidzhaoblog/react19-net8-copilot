@@ -5,7 +5,7 @@ $projects = @(
     @{ Name = "WebApi"; Type = "webapi"; Docker = $true },
     @{ Name = "Blazor"; Type = "blazorwasm"; Docker = $true },
     @{ Name = "RazorPage"; Type = "razor"; Docker = $true },
-    @{ Name = "DbContext"; Type = "classlib"; Docker = $false },
+    @{ Name = "EFDbContext"; Type = "classlib"; Docker = $false },
     @{ Name = "MSSqlRepositories"; Type = "classlib"; Docker = $false },
     @{ Name = "RepositoriesInterfaces"; Type = "classlib"; Docker = $false },
     @{ Name = "Services"; Type = "classlib"; Docker = $false },
@@ -20,7 +20,7 @@ $notFuncProjects = @(
     @{ Name = "WebApi"; Type = "webapi"; Docker = $true },
     @{ Name = "Blazor"; Type = "blazorwasm"; Docker = $true },
     @{ Name = "RazorPage"; Type = "razor"; Docker = $true },
-    @{ Name = "DbContext"; Type = "classlib"; Docker = $false },
+    @{ Name = "EFDbContext"; Type = "classlib"; Docker = $false },
     @{ Name = "MSSqlRepositories"; Type = "classlib"; Docker = $false },
     @{ Name = "RepositoriesInterfaces"; Type = "classlib"; Docker = $false },
     @{ Name = "Services"; Type = "classlib"; Docker = $false },
@@ -45,7 +45,7 @@ foreach ($project in $notFuncProjects) {
 	$folderName = $project.Name
     $projectName = "$solutionName.$($project.Name)"
     dotnet new $($project.Type) -n $projectName --framework net8.0 --output $folderName
-    dotnet sln add "$projectName.csproj"
+    dotnet sln add "$folderName/$projectName.csproj" --in-root 
 
     # Add Docker support if required
     if ($project.Docker -eq $true) {
@@ -57,7 +57,7 @@ foreach ($project in $funcProjects) {
 	$folderName = $project.Name
     $projectName = "$solutionName.$($project.Name)"
     dotnet new $($project.Type) -n $projectName --output $folderName
-    dotnet sln add "$folderName/$projectName.csproj"
+    dotnet sln add "$folderName/$projectName.csproj" --in-root
 
     # Add Docker support if required
     if ($project.Docker -eq $true) {
@@ -70,7 +70,7 @@ dotnet add "Services/$solutionName.Services.csproj" reference "ServiceInterfaces
 dotnet add "MSSqlRepositories/$solutionName.MSSqlRepositories.csproj" reference "RepositoriesInterfaces/$solutionName.RepositoriesInterfaces.csproj"
 dotnet add "Services/$solutionName.Services.csproj" reference "Models/$solutionName.Models.csproj"
 dotnet add "MSSqlRepositories/$solutionName.MSSqlRepositories.csproj" reference "Models/$solutionName.Models.csproj"
-dotnet add "DbContext/$solutionName.DbContext.csproj" reference "Models/$solutionName.Models.csproj"
+dotnet add "EFDbContext/$solutionName.EFDbContext.csproj" reference "Models/$solutionName.Models.csproj"
 
 # Add shared references
 $sharedProjects = @("Models", "Utilities", "Shared")
@@ -81,7 +81,7 @@ foreach ($consumer in $consumerProjects) {
     }
     dotnet add "$consumer/$solutionName.$consumer.csproj" reference "Services/$solutionName.Services.csproj"
     dotnet add "$consumer/$solutionName.$consumer.csproj" reference "MSSqlRepositories/$solutionName.MSSqlRepositories.csproj"
-    dotnet add "$consumer/$solutionName.$consumer.csproj" reference "DbContext/$solutionName.DbContext.csproj"
+    dotnet add "$consumer/$solutionName.$consumer.csproj" reference "EFDbContext/$solutionName.EFDbContext.csproj"
 }
 
 # Add EF Core and Microsoft Identity NuGet packages
@@ -95,7 +95,7 @@ $identityPackages = @(
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
     "Microsoft.AspNetCore.Identity.UI"
 )
-$efCoreProjects = @("DbContext", "WebApi", "Blazor", "RazorPage", "HttpTriggerFunctions", "TimerTriggerFunctions")
+$efCoreProjects = @("EFDbContext", "WebApi", "Blazor", "RazorPage", "HttpTriggerFunctions", "TimerTriggerFunctions")
 $identityProjects = @("WebApi", "RazorPage")
 
 foreach ($project in $efCoreProjects) {
