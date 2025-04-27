@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureWorksLT2019.XUnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureWorksLT2019.MSUnitTests", "MSUnitTests\AdventureWorksLT2019.MSUnitTests.csproj", "{A3D2A372-0D06-4310-A085-E6955B8A0821}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "adventureworkslt2019.reactts", "reactts\adventureworkslt2019.reactts.esproj", "{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -242,6 +244,24 @@ Global
 		{A3D2A372-0D06-4310-A085-E6955B8A0821}.Release|x64.Build.0 = Release|Any CPU
 		{A3D2A372-0D06-4310-A085-E6955B8A0821}.Release|x86.ActiveCfg = Release|Any CPU
 		{A3D2A372-0D06-4310-A085-E6955B8A0821}.Release|x86.Build.0 = Release|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Debug|x64.Build.0 = Debug|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Debug|x86.Build.0 = Debug|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Release|x64.ActiveCfg = Release|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Release|x64.Build.0 = Release|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Release|x64.Deploy.0 = Release|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Release|x86.ActiveCfg = Release|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Release|x86.Build.0 = Release|Any CPU
+		{7963A8AF-CFA2-CE32-434E-D11C9B2B1362}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
