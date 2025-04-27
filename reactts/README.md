@@ -1,3 +1,7 @@
+npm install --save-dev @testing-library/react @testing-library/dom
+npm install --save-dev jest ts-jest @types/jest
+npm install --save-dev @testing-library/jest-dom jest-environment-jsdom ts-node
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
