@@ -1,4 +1,4 @@
-namespace AdventureWorksLT2019.NUnitTests;
+namespace AdventureWorksLT2019.NUnitTests.AlgorithmsPractice;
 
 public class Tests
 {

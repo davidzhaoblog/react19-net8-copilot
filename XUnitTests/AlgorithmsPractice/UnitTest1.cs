@@ -1,4 +1,4 @@
-namespace AdventureWorksLT2019.XUnitTests;
+namespace AdventureWorksLT2019.XUnitTests.AlgorithmsPractice;
 
 public class UnitTest1
 {
