@@ -1,16 +1,33 @@
-# MUI + tailwindcss, include postcss
+# 2025-05-01, result from npm install 
 
-npm install @mui/material @mui/styled-engine-sc styled-components
-npm install tailwindcss @tailwindcss/postcss postcss
+"
+PS D:\Github_Blog\react19-net8-copilot\reactts> npm install
+`npm warn deprecated inflight@1.0.61`: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+`npm warn deprecated glob@7.2.3`: Glob versions prior to v9 are no longer supported
+`npm warn deprecated abab@2.0.6`: Use your platform's native atob() and btoa() methods instead
+`npm warn deprecated domexception@4.0.0`: Use your platform's native DOMException instead
+
+added 590 packages, and audited 591 packages in 54s
+
+89 packages are looking for funding
+  run `npm fund` for details
+
+`found 0 vulnerabilities`
+PS D:\Github_Blog\react19-net8-copilot\reactt
+"
+
+# MUI + tailwindcss
+
+`npm install @mui/material @mui/styled-engine-sc styled-components`
+`npm install tailwindcss`
 
 # Jest + @testing-library/react
 
-npm install --save-dev @testing-library/react @testing-library/dom
-npm install --save-dev jest ts-jest @types/jest
-npm install --save-dev @testing-library/jest-dom jest-environment-jsdom ts-node
+`npm install --save-dev @testing-library/react @testing-library/dom`
+`npm install --save-dev jest ts-jest @types/jest`
+`npm install --save-dev @testing-library/jest-dom jest-environment-jsdom ts-node`
 
 # React + TypeScript + Vite
-
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
