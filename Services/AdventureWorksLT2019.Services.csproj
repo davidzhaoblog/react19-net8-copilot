@@ -5,6 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RepositoriesInterfaces\AdventureWorksLT2019.RepositoriesInterfaces.csproj" />
     <ProjectReference Include="..\ServiceInterfaces\AdventureWorksLT2019.ServiceInterfaces.csproj" />
     <ProjectReference Include="..\Models\AdventureWorksLT2019.Models.csproj" />
   </ItemGroup>

@@ -1,3 +1,51 @@
+# React - 2025: popular npm packages
+
+## Design Tools:
+[Figma.com](https://www.figma.com/?utm_source=google&utm_medium=cpc&utm_campaign=21284800681&utm_term=figma&utm_content=699203569595&utm_adgroup=169015407344&gad_source=1&gad_campaignid=21284800681&gbraid=0AAAAACTf0kM1Wj3sOjnqtHIp8tQZ-Xh9F&gclid=Cj0KCQjw_dbABhC5ARIsAAh2Z-Sv9-u64NBWZV6YRX7DsdYg9XGM8dbfBdhzxJ3E4ltCh5giA7u9qe4aAk16EALw_wcB)
+[builder.io](https://www.builder.io/?utm_device=c&utm_network=g&utm_term=builder%20io&utm_campaign=Brand_Search_New&utm_source=adwords&utm_medium=ppc&hsa_acc=8119935409&hsa_cam=21605439569&hsa_grp=164971289943&hsa_ad=710225573476&hsa_src=g&hsa_tgt=kwd-878689654950&hsa_kw=builder%20io&hsa_mt=e&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=21605439569&gbraid=0AAAAACUA9YnEBL4kPYlgTzv8-xd1NdhTX&gclid=Cj0KCQjw_dbABhC5ARIsAAh2Z-RP6cwkXa8Cgr2bW9N7QoU6YA0IMBKnrslJA3uaMKZSwMKh4zA14OQaArDXEALw_wcB)
+
+## Deployment
+[Vercel](https://vercel.com/)
+
+## Authentication
+www.clerk.com
+
+## Component Development
+[Storybook](https://storybook.js.org/)
+
+## mobile
+[React Native](https://reactnative.dev/)
+
+## Database
+supabase
+
+## Form
+[React Hook Form](https://react-hook-form.com/)
+
+## Testing
+Vitest
+Ject
+
+## Amination
+[motion](https://motion.dev/)
+
+## State and WebApi Client
+[Zustand](https://zustand-demo.pmnd.rs/), [Zustand Github](https://github.com/pmndrs/zustand)
+[TanStack Query v5](https://tanstack.com/query/latest)
+
+## Component Library
+[shadcn/ui](https://ui.shadcn.com/)
+### Table
+[TanStack Table](https://tanstack.com/table/latest)
+
+## Styling css
+[tailwindcss](https://tailwindcss.com/)
+
+## Framework, e.g. Routing
+[Next.js](https://nextjs.org/)
+Remix
+[TanStack](https://tanstack.com/)
+
 # 2025-05-01, result from npm install 
 
 "

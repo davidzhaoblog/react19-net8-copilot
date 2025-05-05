@@ -1,9 +1,10 @@
 using AdventureWorksLT2019.EFDbContext;
+using AdventureWorksLT2019.RepositoriesInterfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdventureWorksLT2019.MSSqlRepositories
 {
-    public class ErrorLogRepository
+    public class ErrorLogRepository : IErrorLogRepository
     {
         private readonly AdventureWorksLT2019Context _context;
 
