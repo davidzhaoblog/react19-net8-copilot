@@ -1,0 +1,22 @@
+I want to use c# and .Net to create a solution based on AdventureWorksLT2019 database in my local sql server, the solution name is AdventureWorksLT2019, with 3 empty web application projects, webapi, blazor, rasor page, and a Azure functions project for httptrigger. and another Azure functions project for timertrigger. then I need 1 dbcontext project to contain entity framework core dbcontext, repositories project and repositories interfaces project, a services project and a services interfaces project.
+I am using AdventureWorksLT2019 from MS Sql Server as database. The repositories project should named as MSSqlRepositories. The repositories interfaces project should name as RepositoriesInterfaces.
+The services interfaces project name should be ServiceInterfaces.
+I need a shared Models project which contains shared data models, I need a shared utilities project which contains utility classes, I also need a shared project which contains types shared between webapi/blazor/razor and azure functions projects.
+And please add docker support to WebApi, blazor, and RazorPage and azure functions projects.
+services project should reference to a services interfaces project.
+repositories project should reference to a repositoriesinterfaces project.
+Models project should be referenced by services and repositories, and their interfaces project, and webapi/blazor/razor and azure functions projects.
+dbcontext project is referenced by repositories and webapi/blazor/razor and azure functions projects.
+repositories and services are referenced in webapi/blazor/razor and azure functions projects.
+utilities project should be referenced in services and webapi/blazor/razor and azure functions projects.
+dbcontext projects the entity framework core db context with geography support on MS Sql Server, please add nuget packages to this project. entity framework core related nuget packages should be also added WebApi, blazor, and RazorPage and azure functions projects.
+WebApi and RazorPage projects should use Microsoft Identity framework for authentication and authorization. Please add Microsoft Identity framework related nuget packages to the 2 projects.
+Please give the proper code in program.cs to initialize Entity Framework.
+Please give the proper code in program.cs to initialize Microsoft Identity Framework Framework
+Please give the proper code in program.cs to initialize web server pipeline with proper middlewares.
+Please use "C:\Github-Blog\react19-net8-copilot" as solutionPath in the powershell scripts,
+Blazor project type should be blazor instead of blazorserver.
+The azure function projects should use func instead of azurefunctions as project type.
+Please add solution name to the project name of each project in each project.
+Please don't add solution name to the physical project folders.
+Please give powershell scripts to create the solution and all projects.

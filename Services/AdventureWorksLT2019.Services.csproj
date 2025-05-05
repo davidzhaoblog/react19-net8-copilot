@@ -1,6 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RepositoriesInterfaces\AdventureWorksLT2019.RepositoriesInterfaces.csproj" />
     <ProjectReference Include="..\ServiceInterfaces\AdventureWorksLT2019.ServiceInterfaces.csproj" />
     <ProjectReference Include="..\Models\AdventureWorksLT2019.Models.csproj" />
   </ItemGroup>
