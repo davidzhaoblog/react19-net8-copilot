@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace AdventureWorksLT2019.WebApi.Data.Migrations
 {
@@ -189,12 +191,30 @@ namespace AdventureWorksLT2019.WebApi.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+            unique: true,
+            filter: "[NormalizedUserName] IS NOT NULL");
+
+            // Insert roles into AspNetRoles table
+            migrationBuilder.Sql(@"
+                INSERT INTO AspNetRoles (Id, Name, NormalizedName, ConcurrencyStamp)
+                VALUES 
+                (NEWID(), 'Owner', 'OWNER', NEWID()),
+                (NEWID(), 'Visitor', 'VISITOR', NEWID()),
+                (NEWID(), 'Employee', 'EMPLOYEE', NEWID()),
+                (NEWID(), 'SystemAdmin', 'SYSTEMADMIN', NEWID()),
+                (NEWID(), 'BasicUser', 'BASICUSER', NEWID()),
+                (NEWID(), 'Consumer', 'CONSUMER', NEWID());
+            ");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            // Remove roles from AspNetRoles table
+            migrationBuilder.Sql(@"
+                DELETE FROM AspNetRoles
+                WHERE Name IN ('Owner', 'Visitor', 'Employee', 'SystemAdmin', 'BasicUser', 'Consumer');
+            ");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
