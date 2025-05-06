@@ -9,6 +9,10 @@ using AdventureWorksLT2019.ServiceInterfaces;
 using AdventureWorksLT2019.Services;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,17 +38,35 @@ Log.Logger = new LoggerConfiguration()
 Log.Information("Application Starting");
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnection") ?? throw new InvalidOperationException("Connection string 'IdentityConnection' not found.");
+var adventureWorksLT2019ConnectionConnectionString = builder.Configuration.GetConnectionString("AdventureWorksLT2019Connection") ?? throw new InvalidOperationException("Connection string 'AdventureWorksLT2019Connection' not found.");
 
 builder.Services.AddDbContext<AdventureWorksLT2019.EFDbContext.AdventureWorksLT2019Context>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), x => { x.EnableRetryOnFailure(); }), ServiceLifetime.Scoped);
-
+        options.UseSqlServer(
+            adventureWorksLT2019ConnectionConnectionString, 
+            x => { 
+                x.EnableRetryOnFailure();
+                x.MigrationsAssembly("AdventureWorksLT2019.WebApi");
+                x.MigrationsHistoryTable("__AdventureWorksLT2019MigrationsHistory", "dbo");
+            }), 
+            ServiceLifetime.Scoped);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(
+        identityConnectionString,
+                x =>
+                {
+                    x.EnableRetryOnFailure();
+                    x.MigrationsAssembly("AdventureWorksLT2019.WebApi");
+                    x.MigrationsHistoryTable("__IdentityMigrationsHistory", "dbo");
+                }));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+    })
+    .AddRoles<IdentityRole>() // Add support for roles
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
@@ -57,6 +79,21 @@ builder.Services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
 builder.Services.AddScoped<IErrorLogService, ErrorLogService>();
 
 var app = builder.Build();
+
+// Seed data
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        await SeedData.InitializeAsync(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -75,4 +112,3 @@ app.MapControllers();
 app.MapIdentityApi<IdentityUser>();
 
 app.Run();
-
