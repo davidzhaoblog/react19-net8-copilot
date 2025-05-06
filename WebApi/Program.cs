@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,11 +64,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 }));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddAuthentication()
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, cfg => cfg.SlidingExpiration = true)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
     {
-        options.SignIn.RequireConfirmedAccount = true;
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("keykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykeykey")),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+builder.Services
+    .AddIdentityApiEndpoints<IdentityUser>(options => {
+        options.SignIn.RequireConfirmedEmail = true;
     })
-    .AddRoles<IdentityRole>() // Add support for roles
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
