@@ -25,15 +25,15 @@ namespace AdventureWorksLT2019.WebApi.Data
             }
 
             // Create SystemAdministrator user
-            var adminUserName = "SystemAdministrator";
-            var adminPassword = "Te$t~123";
+            var adminUserName = "admintest@exampletest.com";
+            var adminPassword = "Te$t!234";
 
             if (await userManager.FindByNameAsync(adminUserName) == null)
             {
                 var adminUser = new IdentityUser
                 {
                     UserName = adminUserName,
-                    Email = "admin@example.com",
+                    Email = "admintest@exampletest.com",
                     EmailConfirmed = true
                 };
 

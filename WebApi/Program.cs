@@ -18,6 +18,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var allowSpecificOrigins = "AllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowSpecificOrigins,
+        policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 builder.Services.AddRouting();
 builder.Services
     // TODO: should have a solution, e.g. an attribute on a controller class/method to Suppress ModalState validation
@@ -120,6 +133,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(allowSpecificOrigins);
 
 app.UseAuthentication();
 app.UseAuthorization();
