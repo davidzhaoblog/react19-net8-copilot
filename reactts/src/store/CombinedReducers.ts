@@ -4,6 +4,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 
 import app from "@/slices/appSlice"
 import auth from "@/slices/msIdentityFrameworkSlice"
+import { errorLogApi } from "@/apiClients/errorLogApi";
 // import siteData from 'src/slices/siteDataSlice'
 // import userPreference from "src/slices/userPreferenceDataSlice"
 
@@ -16,6 +17,7 @@ export const blacklist = [
 export const reducers = combineReducers({
     app: app,
     auth: auth,
+    [errorLogApi.reducerPath]: errorLogApi.reducer,
     // siteData: siteData,
     // userPreference: userPreference,
 
