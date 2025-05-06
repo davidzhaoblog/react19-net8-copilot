@@ -6,6 +6,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Provider } from 'react-redux';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+import "./i18n";
+
 import './index.css'
 import App from './App.tsx'
 import store from './store/Store.ts';
