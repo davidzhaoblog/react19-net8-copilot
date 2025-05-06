@@ -4,8 +4,9 @@ import MainLayout from '../components/MainLayout';
 import Home from '../pages/Home';
 import About from '../pages/About';
 import Team from '../pages/Team';
-import Contact from '../pages/Contact';
 import Careers from '../pages/Careers';
+import Contact from '../pages/Contact';
+import Login from '../pages/Identity/Login';
 
 const MainRoutes: React.FC = () => {
     return (
@@ -21,6 +22,7 @@ const MainRoutes: React.FC = () => {
           </Route>
           <Route path="contact" element={<Contact />} />
         </Route>
+        <Route path="login" element={<Login />} />
       </Routes>
     );
   };

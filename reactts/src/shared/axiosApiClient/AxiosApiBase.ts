@@ -1,5 +1,5 @@
-import { RefreshRequest, TokenResponse } from '../types/Authentication';
-import { StorageKeys } from '../types/StorageKeys';
+import { RefreshRequest, TokenResponse } from '../../types/Authentication';
+import { StorageKeys } from '../../../src/types/StorageKeys';
 import { Axios } from './Axios'
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
@@ -33,7 +33,7 @@ export class AxiosApiBase extends Axios {
         this.success = this.success.bind(this);
         this.error = this.error.bind(this);
 
-        this.interceptors.request.use((param: AxiosRequestConfig) => {
+        this.interceptors?.request.use((param: AxiosRequestConfig) => {
             //console.log(param);
             const token = localStorage.getItem(StorageKeys.Token);
             if (token) {
@@ -63,7 +63,7 @@ export class AxiosApiBase extends Axios {
         // this middleware is been called right before the response is get it by the method that triggers the request
         // the original code was commented out below.
         // fixes from https://github.com/axios/axios/issues/1510.
-        this.interceptors.response.use((param) => ({
+        this.interceptors?.response.use((param) => ({
             ...param
         }), async (error: { config: any; response: { status: number; }; }) => {
             // Something went wrong, figure out how to handle it here or in a `.catch` somewhere down the pipe
@@ -359,7 +359,7 @@ export class AxiosApiBase extends Axios {
         throw error;
     }
 
-    protected buildFullUrl = (url: string, routeParams: any, queryStringParams_NonArray: any, queryStringParams_Array: {key: string, values: any[]}[]) => {
+    protected buildFullUrl = (url: string, routeParams: any, queryStringParams_NonArray: any, queryStringParams_Array?: {key: string, values: any[]}[]) => {
         let fullUrl = this.buildFullUrlWebApiRouteOnly(url, routeParams);
         let queryStrings = "";
         if (!!queryStringParams_NonArray) {

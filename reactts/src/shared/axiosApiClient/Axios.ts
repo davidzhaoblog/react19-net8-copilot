@@ -4,7 +4,7 @@
 import axios, { AxiosInterceptorManager, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export class Axios {
-    public interceptors!: {
+    public interceptors: {
         /**
          * The **Request** interceptor will be call rigth before the `http request`
          * @summary
@@ -17,8 +17,8 @@ export class Axios {
          * This a useful method especially if you need to send a token on each request.
          */
         response: AxiosInterceptorManager<AxiosResponse>;
-    };
-    constructor(config: AxiosRequestConfig) {
+    } | undefined;
+    constructor(config?: AxiosRequestConfig) {
         let axiosInstance = axios.create(config);
         return { ...axiosInstance, interceptors: this.interceptors };
     }
