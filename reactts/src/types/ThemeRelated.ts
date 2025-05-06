@@ -6,7 +6,7 @@ export const getThemeDesignTokens = (mode: PaletteMode) => ({
     },
 });
 
-// import { ItemUIStatus } from '../dataModels/ItemUIStatus';
+// import { ItemUIStatus } from '@/dataModels/ItemUIStatus';
 // export function getAvatarStyle(itemUIStatus: ItemUIStatus, theme: Theme): { bgcolor: string, color: string } {
 //     if(itemUIStatus === ItemUIStatus.NoChange){
 //         return { bgcolor: theme.palette.info.main, color: theme.palette.background.default };

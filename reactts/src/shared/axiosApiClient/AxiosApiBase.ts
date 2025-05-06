@@ -1,7 +1,8 @@
-import { RefreshRequest, TokenResponse } from '../../types/Authentication';
-import { StorageKeys } from '../../../src/types/StorageKeys';
-import { Axios } from './Axios'
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+
+import { RefreshRequest, TokenResponse } from '@/types/Authentication';
+import { StorageKeys } from '@/types/StorageKeys';
+import { Axios } from '@/shared/axiosApiClient/Axios';
 
 export class AxiosApiBase extends Axios {
     // private token: string;

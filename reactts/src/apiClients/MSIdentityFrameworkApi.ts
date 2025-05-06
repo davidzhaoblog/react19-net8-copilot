@@ -9,10 +9,10 @@ import {
     RegisterErrorResponse, RegisterRequest, ResendConfirmationEmailRequest, ResetPasswordRequest,
     TokenResponse
 }
-from '../types/MSIdentityFrameworkModels';
-import { AxiosApiBase } from '../shared/axiosApiClient/AxiosApiBase';
-import { StorageKeys } from '../types/StorageKeys';
-import { apiConfig } from '../shared/axiosApiClient/apiConfig';
+from '@/types/MSIdentityFrameworkModels';
+import { AxiosApiBase } from '@/shared/axiosApiClient/AxiosApiBase';
+import { StorageKeys } from '@/types/StorageKeys';
+import { apiConfig } from '@/shared/axiosApiClient/apiConfig';
 // import { IPersonDataModel } from 'src/dataModels/IPersonDataModel';
 // import { UIRouteLinkSetting } from 'src/shared/dataModels/UIRouteLinkSetting';
 // import { INotificationDataModel } from 'src/dataModels/INotificationDataModel';

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MainLayout from '../components/MainLayout';
-import Home from '../pages/Home';
-import About from '../pages/About';
-import Team from '../pages/Team';
-import Careers from '../pages/Careers';
-import Contact from '../pages/Contact';
-import Login from '../pages/Identity/Login';
+import MainLayout from '@/components/MainLayout';
+import Home from '@/pages/Home';
+import About from '@/pages/About';
+import Team from '@/pages/Team';
+import Careers from '@/pages/Careers';
+import Contact from '@/pages/Contact';
+import Login from '@/pages/Identity/Login';
 
 const MainRoutes: React.FC = () => {
     return (

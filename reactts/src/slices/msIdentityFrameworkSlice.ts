@@ -5,15 +5,15 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 import { TokenResponse as GoogleTokenResponse } from "@react-oauth/google";
 
-import { UIRouteLinkSetting } from "../types/UIRouteLinkSetting";
+// import { UIRouteLinkSetting } from "@/types/UIRouteLinkSetting";
 
 
-import { msIdentityFrameworkApi } from "../apiClients/MSIdentityFrameworkApi";
-import { LoginRequest, Manage2faForgetMachineRequest, Manage2faRequest, Manage2faResetRecoveryCodesRequest, Manage2faResetSharedKeyRequest, ManageinfoPostRequest } from "../types/MSIdentityFrameworkModels";
+import { msIdentityFrameworkApi } from "@/apiClients/MSIdentityFrameworkApi";
+import { LoginRequest, Manage2faForgetMachineRequest, Manage2faRequest, Manage2faResetRecoveryCodesRequest, Manage2faResetSharedKeyRequest, ManageinfoPostRequest } from "@/types/MSIdentityFrameworkModels";
 
 //import { getPersonAvatar, getPersonTitle, IPersonDataModel } from 'dataModels/IPersonDataModel';
 // import { AspNetRolesOptions, SubscriberTypeOptions } from "dataModels/Enums";
-import { ApiErrorMessage } from "../types/ApiClient";
+import { ApiErrorMessage } from "@/types/ApiClient";
 // import { setOpenImportantNotificationDialog } from "./appSlice";
 
 export interface AuthState {
@@ -292,7 +292,7 @@ const msIdentityFrameworkSlice = createSlice({
             state.logInDateTime = dayjs().toString();
             state.expiringAt = (dayjs().add(payload.tokenResult.expiresIn ?? 7, "days")).toString();
             state.email = payload.loginRequest.email;
-            state.identityProvider = IdentityProviders.This;
+            // state.identityProvider = IdentityProviders.This;
             // console.log("login.fulfilled");
         });
         builder.addCase(login.rejected, (state, action) => {
@@ -418,7 +418,7 @@ const msIdentityFrameworkSlice = createSlice({
             state.logInDateTime = "";
             state.expiringAt = "";
             state.email = "";
-            state.identityProvider = IdentityProviders.This;
+            // state.identityProvider = IdentityProviders.This;
             // subscriberTypeID = SubscriberTypeOptions.Consumer;
             // subscriberPlanID = -1;
             state.roles = [];
@@ -478,7 +478,7 @@ const msIdentityFrameworkSlice = createSlice({
             state.isAuthenticated = true;
             state.logInDateTime = dayjs().toString();
             state.expiringAt = (dayjs().add(payload.tokenResult.expiresIn ?? 7, "days")).toString();
-            state.identityProvider = IdentityProviders.Google;
+            // state.identityProvider = IdentityProviders.Google;
             // state.email = payload.loginRequest.email;
             // console.log("googleCallBack.fulfilled");
         });

@@ -19,11 +19,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useGoogleLogin, GoogleLogin } from '@react-oauth/google';
 
-import { RootState } from '../../store/CombinedReducers';
-import { AppDispatch } from '../../store/Store';
-import { ApiErrorMessage } from '../../types/ApiClient';
+import { RootState } from '@/store/CombinedReducers';
+import { AppDispatch } from '@/store/Store';
+import { ApiErrorMessage } from '@/types/ApiClient';
 
-import { googleCallBack, login, setIsAuthenticated } from '../../slices/msIdentityFrameworkSlice';
+import { googleCallBack, login, setIsAuthenticated } from '@/slices/msIdentityFrameworkSlice';
 
 interface ILogInFormProps {
     email: string;
