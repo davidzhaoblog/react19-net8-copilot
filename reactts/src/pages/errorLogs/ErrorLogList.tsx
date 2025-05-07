@@ -10,7 +10,7 @@ const ErrorLogList: React.FC = () => {
   return (
     <ul>
       {errorLogs?.map((log: any) => (
-        <li key={log.id}>
+        <li key={log.errorLogId}>
           {log.errorLogId} - {log.errorSeverity}: {log.userName}
         </li>
       ))}
