@@ -1,14 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { whenAuthTokenChange, whenLogoutUser } from './tokenSlice';
+import { whenAuthTokenChange, whenLogoutUser } from './authSlice';
 import { AUTH_API_BASE_URL } from '@/shared/constants';
 import { RootState } from '@/store/Store';
+import { whenUserLogin, whenUserLogout } from './userSlice';
 
 // Define the base query with token handling
-const baseQuery = fetchBaseQuery({
+export const authBaseQuery = fetchBaseQuery({
     baseUrl: AUTH_API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
         const state = (getState() as RootState);
-        const token = state.token?.usedToken;
+        const token = state.auth?.usedToken;
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
@@ -19,7 +20,7 @@ const baseQuery = fetchBaseQuery({
 // Create the API slice
 export const authApi = createApi({
     reducerPath: 'authApi',
-    baseQuery,
+    baseQuery: authBaseQuery,
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (credentials) => ({
@@ -33,6 +34,11 @@ export const authApi = createApi({
                     dispatch(whenAuthTokenChange({
                         accessToken: data.accessToken,
                         refreshToken: data.refreshToken,
+                    }));
+                    dispatch(whenUserLogin({
+                        userName: data.email,
+                        email: data.email,
+                        roles: [],
                     }));
                 } catch (error) {
                     console.error('Login failed:', error);
@@ -48,9 +54,10 @@ export const authApi = createApi({
                 try {
                     await queryFulfilled;
                     dispatch(whenLogoutUser());
+                    dispatch(whenUserLogout());
                 } catch (error) {
                     console.error('Logout failed:', error);
-                }
+               }
             },
         }),
         refresh: builder.mutation({

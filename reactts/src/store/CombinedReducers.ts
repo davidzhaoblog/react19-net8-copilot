@@ -5,6 +5,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import app from "@/store/slices/appSlice"
 import { authApi } from './slices/authApi';
 import auth from './slices/authSlice';
+import userReducer from './slices/userSlice';
 
 import { errorLogApi } from "@/apiClients/errorLogApi";
 
@@ -20,6 +21,7 @@ export const blacklist = [
 export const reducers = combineReducers({
     app: app,
     auth: auth,
+    user: userReducer,
     [authApi.reducerPath]: authApi.reducer,
     [errorLogApi.reducerPath]: errorLogApi.reducer,
     // siteData: siteData,

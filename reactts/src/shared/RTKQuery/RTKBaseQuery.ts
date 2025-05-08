@@ -5,13 +5,14 @@ import {
     fetchBaseQuery,
 } from "@reduxjs/toolkit/query";
 import { RootState } from "@/store/Store";
-import { whenAuthTokenChange, whenLogoutUser, whenAdjustUsedToken } from "@/store/slices/tokenSlice";
+import { whenAuthTokenChange, whenLogoutUser, whenAdjustUsedToken } from "@/store/slices/authSlice";
 import { StorageKeys } from "@/types/StorageKeys";
-import { AUTH_API_BASE_URL } from "@/shared/constants";
+import { API_BASE_URL } from "@/shared/constants";
+import { authBaseQuery } from "@/store/slices/authApi";
 
 // Define base query with authorization header
 const baseQuery = fetchBaseQuery({
-    baseUrl: AUTH_API_BASE_URL,
+    baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
         const state = getState() as RootState;
         const token = state.auth?.usedToken;
@@ -37,7 +38,7 @@ const baseQueryWithReauth: BaseQueryFn<
         if (refreshToken) {
             api.dispatch(whenAdjustUsedToken(refreshToken));
 
-            const refreshResult = await baseQuery(
+            const refreshResult = await authBaseQuery(
                 {
                     url: "/refresh",
                     method: "POST",
