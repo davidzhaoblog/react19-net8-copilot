@@ -5,7 +5,7 @@ const MainLayout: React.FC = () => {
   return (
     <div>
       <nav>
-      <Link to="errorlog">ErrorLog</Link> | <Link to="/">Home</Link> | <Link to="/about">About</Link> | <Link to="/contact">Contact</Link>
+      <Link to="login">Log In</Link> | <Link to="errorlog">ErrorLog</Link> | <Link to="/">Home</Link> | <Link to="/about">About</Link> | <Link to="/contact">Contact</Link>
       </nav>
       <hr />
       {/* Render child routes */}

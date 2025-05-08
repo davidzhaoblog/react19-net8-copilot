@@ -1,4 +1,4 @@
-import { useGetErrorLogsQuery } from '@/apiClients/errorLogApi';
+import { useGetErrorLogsQuery } from '@/store/slices/errorLogApi';
 import React from 'react';
 
 const ErrorLogList: React.FC = () => {

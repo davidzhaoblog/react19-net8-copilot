@@ -7,7 +7,7 @@ import { authApi } from './slices/authApi';
 import auth from './slices/authSlice';
 import userReducer from './slices/userSlice';
 
-import { errorLogApi } from "@/apiClients/errorLogApi";
+import { errorLogApi } from "@/store/slices/errorLogApi";
 
 // import siteData from 'src/slices/siteDataSlice'
 // import userPreference from "src/slices/userPreferenceDataSlice"

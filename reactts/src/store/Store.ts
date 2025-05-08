@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 // import storage from 'reduxjs-toolkit-persist/lib/storage' // defaults to localStorage for web
 
 import { reducers } from './CombinedReducers'
-import { errorLogApi } from '@/apiClients/errorLogApi'
+import { errorLogApi } from '@/store/slices/errorLogApi'
 
 // const persistConfig = {
 //     key: 'root',
