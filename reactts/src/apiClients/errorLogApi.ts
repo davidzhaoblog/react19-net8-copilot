@@ -1,7 +1,8 @@
+import { StorageKeys } from '@/types/StorageKeys';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Define the base URL for your API
-const baseUrl = import.meta.env.VITE_API_BASEURL;
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export interface ErrorLog {
     id: number;
@@ -12,7 +13,19 @@ export interface ErrorLog {
 
 export const errorLogApi = createApi({
     reducerPath: 'errorLogApi',
-    baseQuery: fetchBaseQuery({ baseUrl }),
+    baseQuery: fetchBaseQuery({ 
+        baseUrl,
+        prepareHeaders: (headers, { getState }) => {
+            const token = localStorage.getItem(StorageKeys.Token);
+        
+            // If we have a token set in state, let's assume that we should be passing it.
+            // if (token) {
+            //   headers.set('authorization', `Bearer ${token}`)
+            // }
+        
+            return headers
+          },
+    }),
     tagTypes: ['ErrorLog'],
     endpoints: (builder) => ({
         // Fetch all ErrorLogs

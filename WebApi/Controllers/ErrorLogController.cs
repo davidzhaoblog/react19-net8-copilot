@@ -1,5 +1,6 @@
 using AdventureWorksLT2019.EFDbContext;
 using AdventureWorksLT2019.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdventureWorksLT2019.WebApi.Controllers
@@ -15,6 +16,7 @@ namespace AdventureWorksLT2019.WebApi.Controllers
             _errorLogService = errorLogService;
         }
 
+        [Authorize]
         // GET: api/ErrorLog
         [HttpGet]
         public async Task<IActionResult> GetAll()

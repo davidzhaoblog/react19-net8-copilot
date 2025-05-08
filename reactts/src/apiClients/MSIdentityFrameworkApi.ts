@@ -12,11 +12,7 @@ import {
 from '@/types/MSIdentityFrameworkModels';
 import { AxiosApiBase } from '@/shared/axiosApiClient/AxiosApiBase';
 import { StorageKeys } from '@/types/StorageKeys';
-import { apiConfig } from '@/shared/axiosApiClient/apiConfig';
-// import { IPersonDataModel } from 'src/dataModels/IPersonDataModel';
-// import { UIRouteLinkSetting } from 'src/shared/dataModels/UIRouteLinkSetting';
-// import { INotificationDataModel } from 'src/dataModels/INotificationDataModel';
-// import { CookieKeys } from 'src/shared/CookieKeys';
+import { authApiConfig } from '@/shared/axiosApiClient/apiConfig';
 
 export class MSIdentityFrameworkApi extends AxiosApiBase {
     public constructor(conf: AxiosRequestConfig) {
@@ -311,4 +307,4 @@ export class MSIdentityFrameworkApi extends AxiosApiBase {
 //     },
 // }
 
-export const msIdentityFrameworkApi = new MSIdentityFrameworkApi(apiConfig);
+export const msIdentityFrameworkApi = new MSIdentityFrameworkApi(authApiConfig);

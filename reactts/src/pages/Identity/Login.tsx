@@ -23,7 +23,7 @@ import { RootState } from '@/store/CombinedReducers';
 import { AppDispatch } from '@/store/Store';
 import { ApiErrorMessage } from '@/types/ApiClient';
 
-import { googleCallBack, login, setIsAuthenticated } from '@/slices/msIdentityFrameworkSlice';
+import { googleCallBack, login, setIsAuthenticated } from '@/store/slices/msIdentityFrameworkSlice';
 
 interface ILogInFormProps {
     email: string;
