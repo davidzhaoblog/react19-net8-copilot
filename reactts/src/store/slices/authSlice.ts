@@ -7,29 +7,29 @@ const initialState = {
     usedToken: localStorage.getItem(StorageKeys.Token),
 };
 
-const tokenSlice = createSlice({
+const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        authTokenChange: (state, action) => {
+        whenAuthTokenChange: (state, action) => {
             localStorage.setItem(StorageKeys.Token, action.payload.accessToken);
             localStorage.setItem(StorageKeys.RefreshToken, action.payload.refreshToken);
             state.token = action.payload.accessToken;
             state.refreshToken = action.payload.refreshToken;
             state.usedToken = action.payload.accessToken;
         },
-        logoutUser: (state) => {
+        whenLogoutUser: (state) => {
             localStorage.removeItem(StorageKeys.Token);
             localStorage.removeItem(StorageKeys.RefreshToken);
             state.token = null;
             state.refreshToken = null;
             state.usedToken = null;
         },
-        adjustUsedToken: (state, action) => {
+        whenAdjustUsedToken: (state, action) => {
             state.usedToken = action.payload;
         },
     },
 });
 
-export const { authTokenChange, logoutUser, adjustUsedToken } = tokenSlice.actions;
-export default tokenSlice.reducer;
+export const { whenAuthTokenChange, whenLogoutUser, whenAdjustUsedToken } = authSlice.actions;
+export default authSlice.reducer;

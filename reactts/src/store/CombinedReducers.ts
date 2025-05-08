@@ -3,8 +3,11 @@ import { combineReducers } from "@reduxjs/toolkit";
 // import { generatedSummaryCombinedReducers, generatedSummaryCombinedReducers_BlackList } from "src/generated/store/GeneratedSummaryCombinedReducers";
 
 import app from "@/store/slices/appSlice"
-import auth from "@/store/slices/msIdentityFrameworkSlice"
+import { authApi } from './slices/authApi';
+import auth from './slices/authSlice';
+
 import { errorLogApi } from "@/apiClients/errorLogApi";
+
 // import siteData from 'src/slices/siteDataSlice'
 // import userPreference from "src/slices/userPreferenceDataSlice"
 
@@ -17,6 +20,7 @@ export const blacklist = [
 export const reducers = combineReducers({
     app: app,
     auth: auth,
+    [authApi.reducerPath]: authApi.reducer,
     [errorLogApi.reducerPath]: errorLogApi.reducer,
     // siteData: siteData,
     // userPreference: userPreference,
