@@ -1,8 +1,13 @@
+import { useState } from 'react'
 import { createTheme, CssBaseline, PaletteMode, Theme, ThemeProvider } from '@mui/material'
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import './App.css'
 import MainRoutes from './routes/MainRoutes'
-import { useState } from 'react'
 import { getThemeDesignTokens } from './types/ThemeRelated'
+
+const queryClient = new QueryClient();
 
 function App() {
     const [currentTheme, _] = useState<Theme>(createTheme(getThemeDesignTokens('light' as unknown as PaletteMode)))
@@ -11,7 +16,9 @@ function App() {
         <div className="App">
             <ThemeProvider theme={currentTheme}>
                 <CssBaseline />
-                <MainRoutes></MainRoutes>
+                <QueryClientProvider client={queryClient}>
+                    <MainRoutes></MainRoutes>
+                </QueryClientProvider>
             </ThemeProvider>
         </div>
     )

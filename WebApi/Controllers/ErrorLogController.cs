@@ -16,7 +16,7 @@ namespace AdventureWorksLT2019.WebApi.Controllers
             _errorLogService = errorLogService;
         }
 
-        [Authorize]
+        // [Authorize]
         // GET: api/ErrorLog
         [HttpGet]
         public async Task<IActionResult> GetAll()
