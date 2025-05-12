@@ -1,6 +1,5 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MainLayout from '@/components/MainLayout';
 import Home from '@/pages/Home';
 import About from '@/pages/About';
 import Team from '@/pages/Team';
@@ -8,12 +7,13 @@ import Careers from '@/pages/Careers';
 import Contact from '@/pages/Contact';
 import Login from '@/pages/Identity/Login';
 import ErrorLogList from '@/pages/errorLogs/ErrorLogList';
+import PersistentDrawerLeft from '@/components/PersistentAppDrawer';
 
 const MainRoutes: React.FC = () => {
     return (
         <Routes>
             {/* Parent Route */}
-            <Route path="/" element={<MainLayout />}>
+            <Route path="/" element={<PersistentDrawerLeft />}>
                 {/* Child Routes */}
                 <Route index element={<Home />} />
                 <Route path="about" element={<About />}>
