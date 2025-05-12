@@ -1,37 +1,28 @@
 import { configureStore } from '@reduxjs/toolkit'
-// import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, persistStore } from 'reduxjs-toolkit-persist'
-// import storage from 'reduxjs-toolkit-persist/lib/storage' // defaults to localStorage for web
 
 import { reducers } from './CombinedReducers'
 import { errorLogApi } from '@/store/slices/errorLogApi'
+import authApi from './slices/authApi'
 
-// const persistConfig = {
-//     key: 'root',
-//     //storage,
-//     blacklist: blacklist,
-// }
+import { loadUserState, saveUserState } from '@/utilities/userLocalStorage';
 
-// const persistedReducer = persistReducer(persistConfig, reducers)
+const preloadedState = {
+    user: loadUserState(), // Load persisted user state
+};
 
 const store = configureStore({
     reducer: reducers,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-        serializableCheck: {
-            // Ignore these action types, Alert and whenever showAlert is called.
-            // ignoredActions: [
-            //     FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER,
-            // ],
-            // // Ignore these field paths in all actions
-            // ignoredActionPaths: ['app.alert.buttons[0].handler'],
-            //   // Ignore these paths in the state
-            //   ignoredPaths: ['items.dates']
-            // persist/PERSIST is from 'redux-persist/integration/react'
-        }
-    })
+    preloadedState,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(authApi.middleware)
     .concat(errorLogApi.middleware),
 })
 
+// Subscribe to store changes to persist the user state
+store.subscribe(() => {
+    saveUserState(store.getState().user);
+});
+
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>;
-// export const persistor = persistStore(store);
 export default store

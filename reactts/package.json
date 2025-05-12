@@ -34,6 +34,7 @@
     "redux": "^5.0.1",
     "vite-tsconfig-paths": "^5.1.4",
     "yup": "^1.6.1",
+    "zod": "^3.24.4",
     "zustand": "^5.0.4"
   },
   "devDependencies": {

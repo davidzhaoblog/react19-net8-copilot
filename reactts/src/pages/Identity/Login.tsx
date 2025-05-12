@@ -6,11 +6,11 @@ import { Stack } from '@mui/system';
 import { AccountCircle, Visibility, VisibilityOff } from '@mui/icons-material';
 
 import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useLoginMutation } from '@/store/slices/authApi';
+import { useTranslation } from 'react-i18next';
 
 interface ILogInFormProps {
     email: string;
@@ -24,25 +24,25 @@ const logInFormInitValue = {
     password: ''
 } as unknown as ILogInFormProps;
 
-const formValidations = Yup.object({
-    email: Yup.string()
-        .required('EmailRequired')
-        .email('EmailFormatError'),
-    password: Yup.string()
-        .required('PasswordRequired')
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'PasswordPatternError')
-}).required();
+const formValidations = z.object({
+    email: z.string()
+        .nonempty({ message: 'EmailRequired' })
+        .email({ message: 'EmailFormatError' }),
+    password: z.string()
+        .nonempty({ message: 'PasswordRequired' })
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, { message: 'PasswordPatternError' })
+});
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
-
+    
     const [login, { isLoading }] = useLoginMutation();
     const { register, handleSubmit, setValue, formState: { isValid, errors } } = useForm<ILogInFormProps>({
         mode: 'onChange',
         reValidateMode: 'onChange',
         defaultValues: logInFormInitValue,
-        resolver: yupResolver(formValidations)
+        resolver: zodResolver(formValidations)
     });
 
     const onSubmit = handleSubmit(async (data: ILogInFormProps) => {
