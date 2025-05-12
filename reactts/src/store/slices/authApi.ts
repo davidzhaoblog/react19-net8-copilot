@@ -1,175 +1,26 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { whenAuthTokenChange, whenLogoutUser } from './authSlice';
-import { AUTH_API_BASE_URL } from '@/shared/constants';
-import { RootState } from '@/store/Store';
-import { whenUserLogin, whenUserLogout } from './userSlice';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
-// Define the base query with token handling
-export const authBaseQuery = fetchBaseQuery({
-    baseUrl: AUTH_API_BASE_URL,
-    prepareHeaders: (headers, { getState }) => {
-        const state = (getState() as RootState);
-        const token = state.auth?.usedToken;
-        if (token) {
-            headers.set('Authorization', `Bearer ${token}`);
-        }
-        return headers;
-    },
-});
+export const useLogin = () => {
+    return useMutation<{ email: string; password: string }, Error, { email: string; password: string }>(async (credentials: { email: string; password: string }) => {
+        const { data } = await axios.post<{ email: string; password: string }>('/auth/login', credentials);
+        return data;
+    });
+};
 
-// Create the API slice
-export const authApi = createApi({
-    reducerPath: 'authApi',
-    baseQuery: authBaseQuery,
-    endpoints: (builder) => ({
-        login: builder.mutation({
-            query: (credentials) => ({
-                url: '/login',
-                method: 'POST',
-                body: credentials,
-            }),
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    dispatch(whenAuthTokenChange({
-                        accessToken: data.accessToken,
-                        refreshToken: data.refreshToken,
-                    }));
-                    dispatch(whenUserLogin({
-                        userName: data.email,
-                        email: data.email,
-                        roles: [],
-                    }));
-                } catch (error) {
-                    console.error('Login failed:', error);
-                }
-            },
-        }),
-        logout: builder.mutation({
-            query: () => ({
-                url: '/logout',
-                method: 'POST',
-            }),
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    await queryFulfilled;
-                    dispatch(whenLogoutUser());
-                    dispatch(whenUserLogout());
-                } catch (error) {
-                    console.error('Logout failed:', error);
-               }
-            },
-        }),
-        refresh: builder.mutation({
-            query: (refreshToken) => ({
-                url: '/refresh',
-                method: 'POST',
-                body: { refreshToken },
-            }),
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    dispatch(whenAuthTokenChange({
-                        accessToken: data.accessToken,
-                        refreshToken: data.refreshToken,
-                    }));
-                } catch (error) {
-                    console.error('Token refresh failed:', error);
-                }
-            },
-        }),
-        register: builder.mutation({
-            query: (userDetails) => ({
-                url: '/register',
-                method: 'POST',
-                body: userDetails,
-            }),
-        }),
-        forgotPassword: builder.mutation({
-            query: (email) => ({
-                url: '/forgot-password',
-                method: 'POST',
-                body: { email },
-            }),
-        }),
-        resetPassword: builder.mutation({
-            query: (resetDetails) => ({
-                url: '/reset-password',
-                method: 'POST',
-                body: resetDetails,
-            }),
-        }),
-        confirmEmail: builder.mutation({
-            query: (params) => ({
-                url: '/confirm-email',
-                method: 'POST',
-                body: params,
-            }),
-        }),
-        resendConfirmationEmail: builder.mutation({
-            query: (params) => ({
-                url: '/resend-confirmation-email',
-                method: 'POST',
-                body: params,
-            }),
-        }),
-        manage2fa: builder.mutation({
-            query: (params) => ({
-                url: '/manage-2fa',
-                method: 'POST',
-                body: params,
-            }),
-        }),
-        manage2faResetRecoveryCodes: builder.mutation({
-            query: (params) => ({
-                url: '/manage-2fa/reset-recovery-codes',
-                method: 'POST',
-                body: params,
-            }),
-        }),
-        manage2faResetSharedKey: builder.mutation({
-            query: (params) => ({
-                url: '/manage-2fa/reset-shared-key',
-                method: 'POST',
-                body: params,
-            }),
-        }),
-        manage2faForgetMachine: builder.mutation({
-            query: (params) => ({
-                url: '/manage-2fa/forget-machine',
-                method: 'POST',
-                body: params,
-            }),
-        }),
-        manageinfoGet: builder.query({
-            query: () => ({
-                url: '/manage-info',
-                method: 'GET',
-            }),
-        }),
-        manageinfoPost: builder.mutation({
-            query: (params) => ({
-                url: '/manage-info',
-                method: 'POST',
-                body: params,
-            }),
-        }),
-    }),
-});
+export const useLogout = () => {
+    return useMutation({
+        mutationFn: async () => {
+            await axios.post('/auth/logout');
+        },
+    });
+};
 
-export const { 
-    useLoginMutation, 
-    useLogoutMutation, 
-    useRefreshMutation, 
-    useRegisterMutation, 
-    useForgotPasswordMutation, 
-    useResetPasswordMutation, 
-    useConfirmEmailMutation, 
-    useResendConfirmationEmailMutation, 
-    useManage2faMutation, 
-    useManage2faResetRecoveryCodesMutation, 
-    useManage2faResetSharedKeyMutation, 
-    useManage2faForgetMachineMutation, 
-    useManageinfoGetQuery, 
-    useManageinfoPostMutation 
-} = authApi;
+export const useRefreshToken = () => {
+    return useMutation({
+        mutationFn: async (refreshToken: string) => {
+            const { data } = await axios.post('/auth/refresh', { refreshToken });
+            return data;
+        },
+    });
+};
