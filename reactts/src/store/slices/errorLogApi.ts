@@ -1,3 +1,4 @@
+// this file is no longer used when using react-query directly in ErrorLogList.tsx, but it is kept for reference
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import baseQueryWithReauth from '@/shared/RTKQuery/RTKBaseQuery';

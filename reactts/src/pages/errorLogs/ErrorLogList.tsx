@@ -1,11 +1,11 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 const ErrorLogList: React.FC = () => {
-
-    const queryClient = useQueryClient();
     const { data: errorLogs, isLoading, error } = useQuery({
         queryKey: ['errorLogs'],
+        // consideration: fetch is one options for API calls
+        // consideration: use axios directly or , you can use/look at shared/Axios or other AxiosApiBase, or AxiosApiBaseGeneric
         queryFn: () => fetch('https://localhost:7260/api/errorlog').then(res => res.json()),
     });
 
