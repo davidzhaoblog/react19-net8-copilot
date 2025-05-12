@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Checkbox, Container, FilledInput, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, Link, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Checkbox, Container, FilledInput, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, Link, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { AccountCircle, Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -9,8 +9,11 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useLoginMutation } from '@/store/slices/authApi';
+import { useGoogleCallbackMutation, useLoginMutation } from '@/store/slices/authApi';
 import { useTranslation } from 'react-i18next';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google'; // Import GoogleLogin component
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/store/Store';
 
 interface ILogInFormProps {
     email: string;
@@ -36,7 +39,10 @@ const formValidations = z.object({
 const Login: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const dispatch = useDispatch<AppDispatch>();
     
+    const [googleCallback, { }] = useGoogleCallbackMutation();
+
     const [login, { isLoading }] = useLoginMutation();
     const { register, handleSubmit, setValue, formState: { isValid, errors } } = useForm<ILogInFormProps>({
         mode: 'onChange',
@@ -62,6 +68,15 @@ const Login: React.FC = () => {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+
+    const onLoginAsGoogleClicked = useGoogleLogin({
+        onSuccess: (response) => {
+            dispatch(googleCallback(response));
+            console.log('Google Login successful:', response);
+            navigate('/');
+        },
+        onError: (error) => console.log('Login Failed:', error)
+    });
 
     return (
         <Container component='main' maxWidth='xs'>
@@ -151,6 +166,15 @@ const Login: React.FC = () => {
                         variant='contained'
                         disabled={!isValid || isLoading}>
                         {t('LogIn')}
+                    </Button>
+                </CardActions>
+                <CardActions disableSpacing>
+                    <Button
+                        color="secondary"
+                        onClick={() => onLoginAsGoogleClicked()}
+                        fullWidth
+                        variant='outlined'>
+                        {t('Login As Google')}
                     </Button>
                 </CardActions>
                 <CardActions disableSpacing>

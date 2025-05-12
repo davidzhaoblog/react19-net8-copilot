@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using AdventureWorksLT2019.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -142,5 +143,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapIdentityApi<IdentityUser>();
+app.AddCustomAuthenticationApiEndpoints();
 
 app.Run();

@@ -11,9 +11,11 @@ import "./i18n";
 import './index.css'
 import App from './App.tsx'
 import store from './store/Store.ts';
+import { StyledEngineProvider } from '@mui/material';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
+        <StyledEngineProvider injectFirst>
         <GoogleOAuthProvider clientId="231032877404-lnl95rkjik29sdfg2bbq2pjm1a249eg8.apps.googleusercontent.com">
             <BrowserRouter>
                 <Provider store={store}>
@@ -23,5 +25,6 @@ createRoot(document.getElementById('root')!).render(
                 </Provider>
             </BrowserRouter>
         </GoogleOAuthProvider>
+        </StyledEngineProvider>
     </StrictMode>,
 )

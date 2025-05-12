@@ -3,7 +3,7 @@ import { createTheme, CssBaseline, PaletteMode, Theme, ThemeProvider } from '@mu
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import './App.css'
+
 import MainRoutes from './routes/MainRoutes'
 import { getThemeDesignTokens } from './types/ThemeRelated'
 

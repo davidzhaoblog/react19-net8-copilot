@@ -197,6 +197,29 @@ export const authApi = createApi({
                 body: params,
             }),
         }),
+        googleCallback: builder.mutation({
+            query: (googleResponse) => ({
+                url: '/GoogleCallback', // Replace with your backend endpoint for Google login
+                method: 'POST',
+                body: googleResponse,
+            }),
+            async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    dispatch(whenAuthTokenChange({
+                        accessToken: data.accessToken,
+                        refreshToken: data.refreshToken,
+                    }));
+                    dispatch(whenUserLogin({
+                        userName: data.userName,
+                        email: data.email,
+                        roles: data.roles || [],
+                    }));
+                } catch (error) {
+                    console.error('Google login callback failed:', error);
+                }
+            },
+        }),
     }),
 });
 
@@ -214,7 +237,8 @@ export const {
     useManage2faResetSharedKeyMutation, 
     useManage2faForgetMachineMutation, 
     useManageinfoGetQuery, 
-    useManageinfoPostMutation 
+    useManageinfoPostMutation,
+    useGoogleCallbackMutation 
 } = authApi;
 
 export default authApi;
