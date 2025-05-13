@@ -5,10 +5,13 @@ import { whenUserLogout } from '@/store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 import { RootState } from '@/store/Store'; // Adjust the import path based on your store setup
+import { useTranslation } from 'react-i18next';
 
 const LoginPartial: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation();
+    
     const { isAuthenticated, userName } = useSelector((state: RootState) => state.user);
 
     const handleLogin = () => {
@@ -25,12 +28,12 @@ const LoginPartial: React.FC = () => {
                 <>
                     <Typography variant="body1">Welcome, {userName}!</Typography>
                     <Button variant="outlined" color="secondary" onClick={handleLogout}>
-                        Logout
+                        {t("LogOut")}
                     </Button>
                 </>
             ) : (
                 <Button variant="contained" color="primary" onClick={handleLogin}>
-                    Login
+                    {t("Login")}
                 </Button>
             )}
         </Stack>

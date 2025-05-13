@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Checkbox, Container, FilledInput, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, Link, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Checkbox, Container, FilledInput, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, Link, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { AccountCircle, Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -11,9 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useGoogleCallbackMutation, useLoginMutation } from '@/store/slices/authApi';
 import { useTranslation } from 'react-i18next';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google'; // Import GoogleLogin component
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/store/Store';
+import { useGoogleLogin } from '@react-oauth/google'; // Import GoogleLogin component
 
 interface ILogInFormProps {
     email: string;
@@ -39,7 +37,6 @@ const formValidations = z.object({
 const Login: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const dispatch = useDispatch<AppDispatch>();
     
     const [googleCallback, { }] = useGoogleCallbackMutation();
 
@@ -71,7 +68,15 @@ const Login: React.FC = () => {
 
     const onLoginAsGoogleClicked = useGoogleLogin({
         onSuccess: (response) => {
-            dispatch(googleCallback(response));
+            googleCallback(response)
+                .unwrap()
+                .then((result) => {
+                    console.log('Google Login successful:', result);
+                    navigate('/');
+                })
+                .catch((error) => {
+                    console.error('Google Login failed:', error);
+                });
             console.log('Google Login successful:', response);
             navigate('/');
         },
