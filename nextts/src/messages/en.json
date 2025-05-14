@@ -1,0 +1,18 @@
+{
+  "app": {
+    "common": {
+      "welcome": "Welcome to Next.js",
+      "description": "Get started by editing"
+    },
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "buttons": {
+      "login": "Log In",
+      "logout": "Log Out",
+      "signup": "Sign Up"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "app": {
+    "common": {
+      "welcome": "Bienvenue à Next.js",
+      "description": "Commencez par éditer"
+    },
+    "nav": {
+      "home": "Accueil",
+      "about": "À Propos",
+      "contact": "Contact"
+    },
+    "buttons": {
+      "login": "Se Connecter",
+      "logout": "Se Déconnecter",
+      "signup": "S'inscrire"
+    }
+  }
+}

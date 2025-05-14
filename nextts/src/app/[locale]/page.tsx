@@ -1,0 +1,42 @@
+// src/app/[locale]/page.tsx
+import { useTranslations } from 'next-intl';
+import MuiWithTailwind from "@/components/MuiWithTailwind";
+import Image from "next/image";
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+
+export default function Home() {
+  const t = useTranslations('app');
+
+  return (
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+        <div className="flex flex-col items-center gap-4">
+          <h1 className="text-3xl font-bold">{t('common.welcome')}</h1>
+          <LanguageSwitcher />
+        </div>
+        
+        <Image
+          className="dark:invert"
+          src="/next.svg"
+          alt="Next.js logo"
+          width={180}
+          height={38}
+          priority
+        />
+        
+        {/* MUI with Tailwind CSS Example */}
+        <MuiWithTailwind />
+        
+        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+          <li className="mb-2 tracking-[-.01em]">
+            {t('common.description')}{" "}
+            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
+              src/app/[locale]/page.tsx
+            </code>
+            .
+          </li>
+        </ol>
+      </main>
+    </div>
+  );
+}
