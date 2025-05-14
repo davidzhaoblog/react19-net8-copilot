@@ -3,8 +3,8 @@ import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import { notFound } from 'next/navigation';
 import { Geist, Geist_Mono } from "next/font/google";
 import ThemeRegistry from "@/components/ThemeRegistry";
-//import "../globals.css";
-import { locales } from '@/i18n/request';
+import "../globals.css";
+import { locales } from '@/i18n/i18nConstants';
 
 import {routing} from '@/i18n/routing';
 

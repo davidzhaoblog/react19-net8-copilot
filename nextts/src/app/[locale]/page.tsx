@@ -1,7 +1,7 @@
 // src/app/[locale]/page.tsx
 import { useTranslations } from 'next-intl';
-import MuiWithTailwind from "@/components/MuiWithTailwind";
 import Image from "next/image";
+import MuiWithTailwind from "@/components/MuiWithTailwind";
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function Home() {

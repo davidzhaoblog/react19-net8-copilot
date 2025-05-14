@@ -1,6 +1,6 @@
 // src/utils/locale.ts
 
-import { defaultLng, locales } from "@/i18n/request";
+import { defaultLng, locales } from "@/i18n/i18nConstants";
 
 /**
  * Detects the user's preferred language from browser settings
