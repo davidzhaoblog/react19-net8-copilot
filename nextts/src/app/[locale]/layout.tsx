@@ -6,6 +6,7 @@ import ThemeRegistry from "@/components/ThemeRegistry";
 import "../globals.css";
 import { locales } from '@/utils/locale';
 import {routing} from '@/i18n/routing';
+import ThemeRegistryWithProvider from '@/components/ThemeRegistry';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,9 +47,9 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeRegistry>
+          <ThemeRegistryWithProvider>
             {children}
-          </ThemeRegistry>
+          </ThemeRegistryWithProvider>
         </NextIntlClientProvider>
       </body>
     </html>

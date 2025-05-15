@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 import Image from "next/image";
 import MuiWithTailwind from "@/components/MuiWithTailwind";
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
 
 export default function Home() {
   const t = useTranslations('app');
@@ -13,6 +14,7 @@ export default function Home() {
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-3xl font-bold">{t('common.welcome')}</h1>
           <LanguageSwitcher />
+          <ThemeSwitcher />
         </div>
         
         <Image

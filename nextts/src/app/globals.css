@@ -3,24 +3,40 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card-background: #f8fafc;
+  --card-foreground: #1e293b;
+  --primary: #1976d2;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #1f2937;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --accent: #f3f4f6;
+  --accent-foreground: #1f2937;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card-background: #1e1e1e;
+  --card-foreground: #e5e7eb;
+  --primary: #2196f3;
+  --primary-foreground: #ffffff;
+  --secondary: #1f2937;
+  --secondary-foreground: #f3f4f6;
+  --border: #2d3748;
+  --input: #2d3748;
+  --accent: #1f2937;
+  --accent-foreground: #f3f4f6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Smooth transition when theme changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans, sans-serif);
 }

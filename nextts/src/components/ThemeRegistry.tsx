@@ -1,49 +1,70 @@
 'use client';
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider as MUIThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { NextAppDirEmotionCacheProvider } from './EmotionCache';
+import { ThemeProvider } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 
-// MUI theme configuration
-const theme = createTheme({
-  // You can customize your MUI theme here
-  typography: {
-    fontFamily: 'var(--font-geist-sans)',
-  },
-  palette: {
-    mode: 'light', // or 'dark'
-    primary: {
-      main: '#1976d2',
+// This component is used inside the ThemeProvider, so it can use the useTheme hook
+function ThemeRegistry({ children }: { children: React.ReactNode }) {
+  const { resolvedTheme } = useTheme();
+  
+  // Create theme based on the resolved theme (light or dark)
+  const theme = createTheme({
+    palette: {
+      mode: resolvedTheme,
+      primary: {
+        main: '#1976d2',
+      },
+      secondary: {
+        main: '#dc004e',
+      },
+      // You can add more custom colors based on the theme
+      ...(resolvedTheme === 'dark' ? {
+        background: {
+          default: '#121212',
+          paper: '#1e1e1e',
+        },
+      } : {}),
     },
-  },
-  // This ensures that MUI's styling won't conflict with Tailwind
-  components: {
-    MuiPopover: {
-      defaultProps: {
-        container: () => document.getElementById('__next'),
+    typography: {
+      fontFamily: 'var(--font-geist-sans)',
+    },
+    components: {
+      MuiPopover: {
+        defaultProps: {
+          container: () => document.getElementById('__next'),
+        },
+      },
+      MuiPopper: {
+        defaultProps: {
+          container: () => document.getElementById('__next'),
+        },
+      },
+      MuiDialog: {
+        defaultProps: {
+          container: () => document.getElementById('__next'),
+        },
       },
     },
-    MuiPopper: {
-      defaultProps: {
-        container: () => document.getElementById('__next'),
-      },
-    },
-    MuiDialog: {
-      defaultProps: {
-        container: () => document.getElementById('__next'),
-      },
-    },
-  },
-});
+  });
 
-export default function ThemeRegistry({ children }: { children: React.ReactNode }) {
   return (
     <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline is equivalent to a global CSS reset */}
+      <MUIThemeProvider theme={theme}>
         <CssBaseline />
         {children}
-      </ThemeProvider>
+      </MUIThemeProvider>
     </NextAppDirEmotionCacheProvider>
+  );
+}
+
+// This wrapper ensures the ThemeProvider is used
+export default function ThemeRegistryWithProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider>
+      <ThemeRegistry>{children}</ThemeRegistry>
+    </ThemeProvider>
   );
 }
