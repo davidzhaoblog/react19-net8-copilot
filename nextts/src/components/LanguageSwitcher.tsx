@@ -4,7 +4,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import { locales } from '@/i18n/i18nConstants';
+import { locales } from '@/utils/locale';
 
 export default function LanguageSwitcher() {
   const locale = useLocale();

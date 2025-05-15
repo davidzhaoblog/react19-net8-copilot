@@ -4,8 +4,7 @@ import { notFound } from 'next/navigation';
 import { Geist, Geist_Mono } from "next/font/google";
 import ThemeRegistry from "@/components/ThemeRegistry";
 import "../globals.css";
-import { locales } from '@/i18n/i18nConstants';
-
+import { locales } from '@/utils/locale';
 import {routing} from '@/i18n/routing';
 
 const geistSans = Geist({

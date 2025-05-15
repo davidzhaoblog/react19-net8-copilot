@@ -1,6 +1,8 @@
 // src/utils/locale.ts
 
-import { defaultLng, locales } from "@/i18n/i18nConstants";
+export const locales = ['en', 'es', 'fr'];
+export const defaultLng = 'en';
+export const fallbackLng = 'en';
 
 /**
  * Detects the user's preferred language from browser settings
