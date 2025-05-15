@@ -1,5 +1,6 @@
 {
   "app": {
+    "title": "adventureWorksLT2019",
     "common": {
       "welcome": "Welcome to Next.js",
       "description": "Get started by editing"

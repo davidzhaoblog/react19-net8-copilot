@@ -9,6 +9,11 @@ import ThemeSwitcher from '@/components/ThemeSwitcher';
 import Link from 'next/link';
 import { useAuthenticatedApi } from '@/hooks/useAuthenticatedApi';
 import { useAuth } from '@/contexts/AuthContext';
+import { Paper, Skeleton, Typography } from '@mui/material';
+import { Suspense } from 'react';
+import ClientAuthCheck from '@/components/auth/ClientAuthCheck';
+import AuthenticatedHomeContent from '@/components/home/AuthenticatedHomeContent';
+import GuestHomeContent from '@/components/home/GuestHomeContent';
 
 export default function Home() {
   const t = useTranslations('app');
@@ -46,6 +51,19 @@ export default function Home() {
             .
           </li>
         </ol>
+              
+      <Paper className="p-4 mb-4">
+        <Typography variant="body1">
+          This application demonstrates a modern web app with Next.js, Material UI, and ASP.NET Core backend.
+        </Typography>
+      </Paper>
+      
+      <Suspense fallback={<Skeleton variant="rectangular" height={400} />}>
+        <ClientAuthCheck
+          authenticatedContent={<AuthenticatedHomeContent />}
+          guestContent={<GuestHomeContent />}
+        />
+      </Suspense>
       </main>
     </div>
   );
