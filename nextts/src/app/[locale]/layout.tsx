@@ -30,7 +30,11 @@ export default async function RootLayout({
                 <AppProviders locale={locale} messages={messages}>
                     <AppLayout>
                         <ThemeRegistryWithProvider>
-                            {children}
+                            <div className="content-start items-center justify-items-center">
+                                <main className="flex flex-col row-start-2 content-start items-start sm:items-start">
+                                    {children}
+                                </main>
+                            </div>
                         </ThemeRegistryWithProvider>
                     </AppLayout>
                 </AppProviders>

@@ -32,7 +32,10 @@ import {
   AccountCircle,
   Article,
   Lock,
-  Person
+  Person,
+  Info,
+  Work,
+  ContactMail
 } from '@mui/icons-material';
 import Link from 'next/link';
 
@@ -60,77 +63,107 @@ const navItems: NavItem[] = [
     path: '/',
     icon: <Home />
   },
+  // Add the new pages
   {
-    title: 'Dashboard',
-    path: '/dashboard',
-    icon: <Dashboard />,
-    requiresAuth: true
+    title: 'About',
+    path: '/about',
+    icon: <Info />
   },
   {
-    title: 'Reports',
-    icon: <BarChart />,
-    requiresAuth: true,
-    children: [
-      {
-        title: 'Current Month',
-        path: '/reports/current',
-        icon: <Article />
-      },
-      {
-        title: 'Last Quarter',
-        path: '/reports/quarter',
-        icon: <Article />
-      },
-      {
-        title: 'Annual Report',
-        path: '/reports/annual',
-        icon: <Article />
-      }
-    ]
+    title: 'Team',
+    path: '/team',
+    icon: <People />
   },
   {
-    title: 'Users',
-    path: '/users',
-    icon: <People />,
-    requiresAuth: true,
-    adminOnly: true
+    title: 'Careers',
+    path: '/careers',
+    icon: <Work />
   },
   {
-    title: 'Account',
-    icon: <AccountCircle />,
-    requiresAuth: true,
-    children: [
-      {
-        title: 'Profile',
-        path: '/Identity/Profile',
-        icon: <Person />
-      },
-      {
-        title: 'Settings',
-        path: '/Identity/Settings',
-        icon: <Settings />
-      }
-    ]
+    title: 'Contact',
+    path: '/contact',
+    icon: <ContactMail />
   },
-  {
-    title: 'Admin',
-    icon: <AdminPanelSettings />,
-    requiresAuth: true,
-    adminOnly: true,
-    children: [
-      {
-        title: 'User Management',
-        path: '/admin/users',
-        icon: <People />
-      },
-      {
-        title: 'System Settings',
-        path: '/admin/settings',
-        icon: <Settings />
-      }
-    ]
-  }
+  // Existing items...
 ];
+
+// const navItems: NavItem[] = [
+//   {
+//     title: 'Home',
+//     path: '/',
+//     icon: <Home />
+//   },
+//   {
+//     title: 'Dashboard',
+//     path: '/dashboard',
+//     icon: <Dashboard />,
+//     requiresAuth: true
+//   },
+//   {
+//     title: 'Reports',
+//     icon: <BarChart />,
+//     requiresAuth: true,
+//     children: [
+//       {
+//         title: 'Current Month',
+//         path: '/reports/current',
+//         icon: <Article />
+//       },
+//       {
+//         title: 'Last Quarter',
+//         path: '/reports/quarter',
+//         icon: <Article />
+//       },
+//       {
+//         title: 'Annual Report',
+//         path: '/reports/annual',
+//         icon: <Article />
+//       }
+//     ]
+//   },
+//   {
+//     title: 'Users',
+//     path: '/users',
+//     icon: <People />,
+//     requiresAuth: true,
+//     adminOnly: true
+//   },
+//   {
+//     title: 'Account',
+//     icon: <AccountCircle />,
+//     requiresAuth: true,
+//     children: [
+//       {
+//         title: 'Profile',
+//         path: '/Identity/Profile',
+//         icon: <Person />
+//       },
+//       {
+//         title: 'Settings',
+//         path: '/Identity/Settings',
+//         icon: <Settings />
+//       }
+//     ]
+//   },
+//   {
+//     title: 'Admin',
+//     icon: <AdminPanelSettings />,
+//     requiresAuth: true,
+//     adminOnly: true,
+//     children: [
+//       {
+//         title: 'User Management',
+//         path: '/admin/users',
+//         icon: <People />
+//       },
+//       {
+//         title: 'System Settings',
+//         path: '/admin/settings',
+//         icon: <Settings />
+//       }
+//     ]
+//   }
+// ];
 
 export default function AppDrawer({
   open,

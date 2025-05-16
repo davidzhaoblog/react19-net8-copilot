@@ -99,7 +99,7 @@ export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProp
           aria-label="open drawer"
           onClick={onDrawerToggle}
           edge="start"
-          sx={{ mr: 2 }}
+          sx={{ mr: 2, ...(open ? { display: 'none' } : {}) }}
         >
           <MenuIcon />
         </IconButton>

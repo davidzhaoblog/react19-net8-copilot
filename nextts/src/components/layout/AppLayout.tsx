@@ -58,21 +58,20 @@ export default function AppLayout({ children }: AppLayoutProps) {
       />
       
       {/* Drawer */}
-      <AppDrawer 
+      {open && <AppDrawer 
         open={open} 
         drawerWidth={drawerWidth} 
         onDrawerToggle={handleDrawerToggle}
         isAuthenticated={isAuthenticated}
         isLoading={isLoading}
       />
-      
+      }
+
       {/* Main Content */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          width: { sm: `calc(100% - ${open ? drawerWidth : 0}px)` },
-          ml: { sm: open ? `${drawerWidth}px` : 0 },
           transition: theme => theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,

@@ -1,8 +1,9 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
 import { Skeleton } from '@mui/material';
+
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ClientAuthCheckProps {
   authenticatedContent: ReactNode;
