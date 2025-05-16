@@ -1,7 +1,7 @@
 // src/app/[locale]/layout.tsx
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { locales } from '@/utils/locale';
+import { locales } from '@/i18n/locale';
 import ThemeRegistryWithProvider from '@/components/ThemeRegistry';
 import { ReactNode } from 'react';
 import { Inter } from 'next/font/google';
