@@ -63,15 +63,36 @@ namespace AdventureWorksLT2019.WebApi
             }).RequireAuthorization();
 
 
+
+            app.MapGet("/GetUserProfile", async (ClaimsPrincipal user) =>
+            {
+                using (var scope = app.Services.CreateScope())
+                {
+                    var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                    var _signInManager = scope.ServiceProvider.GetRequiredService<SignInManager<IdentityUser>>();
+                    var curUser = await _userManager.GetUserAsync(user);
+                    var roles = await _userManager.GetRolesAsync(curUser!);
+
+                    var response = new
+                    {
+                        Email = curUser?.Email,
+                        UserName = curUser?.UserName,
+                        Roles = roles,
+                    };
+
+                    return await Task.FromResult(response);
+                }
+            }).RequireAuthorization();
+
             //app.MapPost("/GetUserInfo", async (ClaimsPrincipal user) =>
             //{
             //    using (var scope = app.Services.CreateScope())
             //    {
-            //        var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            //        var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
             //        var _claimService = scope.ServiceProvider.GetRequiredService<ClaimService>();
             //        var _notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
             //        var _personService = scope.ServiceProvider.GetRequiredService<IPersonService>();
-            //        var _signInManager = scope.ServiceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
+            //        var _signInManager = scope.ServiceProvider.GetRequiredService<SignInManager<IdentityUser>>();
             //        var claimsModel = _claimService.GetFromClaimPrinciple(user);
             //        var curUser = await _userManager.GetUserAsync(user);
             //        var roles = await _userManager.GetRolesAsync(curUser!);

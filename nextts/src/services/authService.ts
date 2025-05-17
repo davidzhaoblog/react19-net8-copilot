@@ -156,7 +156,7 @@ class AuthService {
       }
     }
     
-    return await this.apiCall<UserResponse>('/user', 'GET', undefined, true);
+    return await this.apiCall<UserResponse>('/GetUserProfile', 'GET', undefined, true);
   }
 
   // Change password
