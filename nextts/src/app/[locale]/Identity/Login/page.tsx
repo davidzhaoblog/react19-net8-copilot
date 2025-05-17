@@ -58,7 +58,6 @@ export default function LoginPage() {
     // Memoized redirect function
     const performRedirect = useCallback(() => {
         router.replace(returnUrl);
-        setShouldRedirect(false); // Reset the redirect flag
     }, [router, returnUrl]);
 
     // Check auth status and set redirect flag
