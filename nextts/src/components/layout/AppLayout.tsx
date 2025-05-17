@@ -56,7 +56,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       />
       
       {/* Drawer */}
-      {open && <AppDrawer 
+      {open && isAuthenticated && <AppDrawer 
         open={open} 
         drawerWidth={drawerWidth} 
         onDrawerToggle={handleDrawerToggle}

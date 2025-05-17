@@ -104,7 +104,7 @@ export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProp
     return (
         <StyledAppBar position="fixed" open={open} drawerWidth={drawerWidth} className="bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300" >
             <Toolbar className="bg-transparent">
-                <IconButton
+                { isAuthenticated && <IconButton
                     color="inherit"
                     aria-label="open drawer"
                     onClick={onDrawerToggle}
@@ -112,7 +112,7 @@ export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProp
                     sx={{ mr: 2, ...(open ? { display: 'none' } : {}) }}
                 >
                     <MenuIcon />
-                </IconButton>
+                </IconButton>}
 
 
                 <Typography

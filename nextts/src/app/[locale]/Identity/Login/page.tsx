@@ -78,7 +78,7 @@ export default function LoginPage() {
     };
 
     return (
-        <Box className="flex justify-center items-center min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <Box className="flex justify-center items-start min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
             <Paper elevation={3} className="p-8 max-w-md w-full">
                 <Box className="mb-6 text-center">
                     <Typography variant="h4" component="h1" className="font-bold">
