@@ -14,5 +14,181 @@
       "logout": "Se Déconnecter",
       "signup": "S'inscrire"
     }
+  },
+  "about": {
+    "metaTitle": "About Us | Next.js App",
+    "metaDescription": "Learn about our company, mission, values, and story.",
+    "title": "About Us",
+    "subtitle": "We're on a mission to revolutionize how businesses operate in the digital age.",
+    "ourStory": {
+      "title": "Our Story",
+      "paragraph1": "Founded in 2018, we started with a simple idea: to create tools that make businesses more efficient. What began as a small team of passionate engineers has grown into a global company serving thousands of customers worldwide.",
+      "paragraph2": "Today, we're proud to be at the forefront of innovation, continuously pushing the boundaries of what's possible with technology.",
+      "imageAlt": "Our team working together"
+    },
+    "ourValues": {
+      "title": "Our Values",
+      "subtitle": "These core principles guide everything we do and every decision we make.",
+      "values": {
+        "innovation": {
+          "title": "Innovation",
+          "description": "We constantly seek new and better ways to solve problems."
+        },
+        "quality": {
+          "title": "Quality",
+          "description": "We're committed to excellence in everything we create."
+        },
+        "integrity": {
+          "title": "Integrity",
+          "description": "We act with honesty, transparency, and ethical responsibility."
+        },
+        "collaboration": {
+          "title": "Collaboration",
+          "description": "We believe great ideas come from working together."
+        }
+      }
+    },
+    "timeline": {
+      "title": "Our Journey",
+      "milestones": {
+        "founding": {
+          "year": "2018",
+          "title": "The Beginning",
+          "description": "Founded by a team of engineers with a vision to create better business tools."
+        },
+        "expansion": {
+          "year": "2020",
+          "title": "Global Expansion",
+          "description": "Opened offices in Europe and Asia, bringing our solutions to new markets."
+        },
+        "innovation": {
+          "year": "2022",
+          "title": "Product Innovation",
+          "description": "Launched our AI-powered platform, revolutionizing how businesses operate."
+        },
+        "present": {
+          "year": "Today",
+          "title": "Looking Forward",
+          "description": "Continuing to innovate and expand our offerings to serve businesses worldwide."
+        }
+      }
+    }
+  },
+  "careers": {
+    "metaTitle": "Careers | Next.js App",
+    "metaDescription": "Join our team and help build the future of business technology.",
+    "title": "Careers",
+    "subtitle": "Join our team of passionate innovators and help shape the future of business technology.",
+    "heroImageAlt": "Our team working together",
+    "whyJoin": {
+      "title": "Why Join Us",
+      "subtitle": "We offer a supportive environment where you can grow professionally while making a meaningful impact.",
+      "benefits": {
+        "growth": {
+          "title": "Professional Growth",
+          "description": "Continuous learning opportunities, mentorship, and career advancement paths."
+        },
+        "impact": {
+          "title": "Meaningful Impact",
+          "description": "Work on products used by thousands of businesses around the world."
+        },
+        "balance": {
+          "title": "Work-Life Balance",
+          "description": "Flexible schedules, remote work options, and generous time off."
+        },
+        "benefits": {
+          "title": "Comprehensive Benefits",
+          "description": "Competitive salary, equity, health insurance, and retirement plans."
+        }
+      }
+    },
+    "openPositions": {
+      "title": "Open Positions",
+      "subtitle": "Find your place in our growing team.",
+      "viewButton": "View Details"
+    },
+    "cta": {
+      "title": "Join Our Team",
+      "description": "We're always looking for talented individuals who share our passion for innovation and excellence.",
+      "benefits": {
+        "culture": "Collaborative and inclusive culture",
+        "growth": "Opportunities for growth and development",
+        "impact": "Make a real impact with your work"
+      },
+      "button": "View All Openings"
+    },
+    "noOpeningsCta": "Don't see a position that matches your skills?",
+    "contactUs": "Contact Us"
+  },
+  "contact": {
+    "metaTitle": "Contact Us | Next.js App",
+    "metaDescription": "Get in touch with our team for inquiries, support, or partnership opportunities.",
+    "title": "Contact Us",
+    "subtitle": "Have questions or want to learn more? Our team is here to help.",
+    "infoSection": {
+      "title": "Get In Touch",
+      "description": "We'd love to hear from you. Reach out using the information below, or fill out the form and we'll get back to you as soon as possible.",
+      "address": {
+        "title": "Visit Us",
+        "line1": "123 Tech Street",
+        "line2": "New York, NY 10001"
+      },
+      "email": {
+        "title": "Email Us",
+        "value": "info@example.com"
+      },
+      "phone": {
+        "title": "Call Us",
+        "value": "+1 (234) 567-8900"
+      }
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "description": "Fill out the form below and we'll get back to you as soon as possible.",
+      "fields": {
+        "name": "Your Name",
+        "email": "Your Email",
+        "subject": "Subject",
+        "message": "Your Message"
+      },
+      "validation": {
+        "nameRequired": "Please enter your name",
+        "emailRequired": "Please enter your email",
+        "emailInvalid": "Please enter a valid email address",
+        "subjectRequired": "Please enter a subject",
+        "messageRequired": "Please enter your message",
+        "messageMinLength": "Message must be at least {count} characters"
+      },
+      "submit": "Send Message",
+      "submitting": "Sending...",
+      "successMessage": "Your message has been sent successfully! We'll get back to you soon.",
+      "errorMessage": "There was an error sending your message. Please try again later."
+    },
+    "mapSection": {
+      "title": "Find Us"
+    }
+  },
+  "team": {
+    "metaTitle": "Our Team | Next.js App",
+    "metaDescription": "Meet the talented team behind our company and products.",
+    "title": "Our Team",
+    "subtitle": "Meet the talented individuals who make everything possible.",
+    "teamPhotoAlt": "Our full team",
+    "leadership": {
+      "title": "Leadership Team"
+    },
+    "departments": {
+      "title": "Department Heads"
+    },
+    "joinUs": {
+      "title": "Want to Join Our Team?",
+      "description": "We're always looking for talented individuals who are passionate about technology and innovation. Check out our open positions and apply today!",
+      "button": "View Open Positions"
+    },
+    "contact": {
+      "title": "Have Questions?",
+      "description": "If you'd like to learn more about our team or have any questions, we'd love to hear from you.",
+      "button": "Contact Us"
+    }
   }
 }
