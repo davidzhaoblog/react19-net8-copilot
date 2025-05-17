@@ -1,18 +1,57 @@
+// middleware.ts (in your project root)
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
+import { locales } from '@/i18n/locale'; // Adjust path as needed
 import {routing} from './i18n/routing';
- 
-export default createMiddleware(routing);
- 
-// export const config = {
-//   // Match all pathnames except for
-//   // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
-//   // - … the ones containing a dot (e.g. `favicon.ico`)
-//   matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)'
-// };
+
+// Combine i18n middleware with auth protection
+const intlMiddleware = createMiddleware(routing);
+
+// Define protected routes (patterns that require authentication)
+const PROTECTED_ROUTES = [
+  '/Identity/Profile',
+  '/Identity/ChangePassword',
+  '/Identity/PersonalData',
+  '/Identity/TwoFactorAuthentication',
+  '/Identity/ExternalLogins',
+  '/Dashboard'
+];
+
+export default async function middleware(request: NextRequest) {
+  // Get the path that will be processed by the intl middleware
+  const response = intlMiddleware(request);
+  const pathname = request.nextUrl.pathname;
+
+  // Check if the route requires authentication
+  const requiresAuth = PROTECTED_ROUTES.some(route => {
+    // Check if any locale + protected route matches the pathname
+    return locales.some(locale => 
+      pathname.startsWith(`/${locale}${route}`)
+    );
+  });
+
+  if (requiresAuth) {
+    // Check for auth token in cookies
+    const hasToken = request.cookies.has('auth_token') || 
+                     request.cookies.has('jwt') || 
+                     request.cookies.has('.AspNetCore.Identity.Application');
+                     
+    if (!hasToken) {
+      // Get locale from path or default to 'en'
+      const locale = pathname.split('/')[1] || 'en';
+      
+      // Redirect to login with return URL
+      const url = new URL(`/${locale}/Identity/Login`, request.url);
+      url.searchParams.set('returnUrl', pathname);
+      return NextResponse.redirect(url);
+    }
+  }
+  
+  return response;
+}
+
 export const config = {
-  // Match all pathnames except for
-  // - API routes (/api/*)
-  // - Static files (/_next/*)
-  // - Files in the public directory (/public/*)
-  matcher: ['/((?!api|_next|.*\\..*).*)']
+  // Only run middleware on the pages that may require auth checking
+  matcher: ['/((?!api|_next|.*\\..*).*)'],
 };
