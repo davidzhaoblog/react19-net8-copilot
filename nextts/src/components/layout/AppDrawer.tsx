@@ -215,6 +215,7 @@ export default function AppDrawer({
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'flex-end',
+        backgroundColor: 'rgb(25, 118, 210)',
         px: [1]
       }}>
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
