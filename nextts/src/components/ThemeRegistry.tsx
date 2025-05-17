@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { NextAppDirEmotionCacheProvider } from './EmotionCache';
 import { ThemeProvider } from '@/hooks/useTheme';
 import { useTheme } from '@/hooks/useTheme';
+import { useEffect } from 'react';
 
 // This component is used inside the ThemeProvider, so it can use the useTheme hook
 function ThemeRegistry({ children }: { children: React.ReactNode }) {
@@ -26,12 +27,24 @@ function ThemeRegistry({ children }: { children: React.ReactNode }) {
           default: '#121212',
           paper: '#1e1e1e',
         },
-      } : {}),
+     } : {}),
     },
     typography: {
       fontFamily: 'var(--font-geist-sans)',
     },
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          // Export theme colors as CSS variables for Tailwind to use
+          ':root': {
+            '--mui-primary': '#1976d2',
+            '--mui-secondary': '#dc004e',
+            '--mui-background-default': resolvedTheme === 'dark' ? '#121212' : '#ffffff',
+            '--mui-background-paper': resolvedTheme === 'dark' ? '#1e1e1e' : '#ffffff',
+            '--mui-text-primary': resolvedTheme === 'dark' ? '#ffffff' : '#000000',
+          }
+        }
+      },
       MuiPopover: {
         defaultProps: {
           container: () => document.getElementById('__next'),
@@ -49,6 +62,12 @@ function ThemeRegistry({ children }: { children: React.ReactNode }) {
       },
     },
   });
+
+  // Sync MUI theme with Tailwind dark mode
+  useEffect(() => {
+    // Toggle the 'dark' class on html element based on the theme
+    document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
+  }, [resolvedTheme]);
 
   return (
     <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>

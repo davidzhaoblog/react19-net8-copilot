@@ -68,48 +68,48 @@ export default function ThemeSwitcher() {
           <ArrowDropDownIcon fontSize="small" />
         </IconButton>
       </Tooltip>
-      <Menu
-        id="theme-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <MenuItem 
-          onClick={() => handleThemeChange('light')}
-          selected={theme === 'light'}
+        <Menu
+            id="theme-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+            }}
+            transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+            }}
         >
-          <ListItemIcon>
-            <LightModeIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Light</ListItemText>
-        </MenuItem>
-        <MenuItem 
-          onClick={() => handleThemeChange('dark')}
-          selected={theme === 'dark'}
-        >
-          <ListItemIcon>
-            <DarkModeIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Dark</ListItemText>
-        </MenuItem>
-        <MenuItem 
-          onClick={() => handleThemeChange('system')}
-          selected={theme === 'system'}
-        >
-          <ListItemIcon>
-            <SettingsBrightnessIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>System</ListItemText>
-        </MenuItem>
-      </Menu>
+            <MenuItem 
+            onClick={() => handleThemeChange('light')}
+            selected={theme === 'light'}
+            >
+            <ListItemIcon>
+                <LightModeIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Light</ListItemText>
+            </MenuItem>
+            <MenuItem 
+            onClick={() => handleThemeChange('dark')}
+            selected={theme === 'dark'}
+            >
+            <ListItemIcon>
+                <DarkModeIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Dark</ListItemText>
+            </MenuItem>
+            <MenuItem 
+            onClick={() => handleThemeChange('system')}
+            selected={theme === 'system'}
+            >
+            <ListItemIcon>
+                <SettingsBrightnessIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>System</ListItemText>
+            </MenuItem>
+        </Menu>
     </div>
   );
 }

@@ -5,8 +5,18 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
+  // ...rest of your config
   theme: {
     extend: {
+      colors: {
+        // Optionally use MUI theme colors in Tailwind
+        'mui-primary': 'var(--mui-primary)',
+        'mui-secondary': 'var(--mui-secondary)',
+        'mui-bg': 'var(--mui-background-default)',
+        'mui-paper': 'var(--mui-background-paper)',
+        'mui-text': 'var(--mui-text-primary)',
+      },
       fontFamily: {
         sans: ['var(--font-geist-sans)'],
         mono: ['var(--font-geist-mono)'],

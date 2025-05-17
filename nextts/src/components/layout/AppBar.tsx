@@ -15,7 +15,7 @@ import {
     Tooltip,
     Badge
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import {
     Menu as MenuIcon,
     Notifications as NotificationsIcon,
@@ -27,6 +27,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import ThemeSwitcher from '../ThemeSwitcher';
 import LanguageSwitcher from '../LanguageSwitcher';
+import { useTranslations } from 'next-intl';
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -37,6 +38,12 @@ interface AppBarProps extends MuiAppBarProps {
 const StyledAppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
 })<AppBarProps>(({ theme, open, drawerWidth }) => ({
+    // Use correct background based on theme mode
+    backgroundColor: theme.palette.mode === 'dark' 
+        ? theme.palette.background.default
+        : theme.palette.background.paper, // or '#ffffff' for white
+    color: theme.palette.text.primary, // This ensures proper text color in both modes
+   
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
@@ -53,6 +60,9 @@ const StyledAppBar = styled(MuiAppBar, {
 }));
 
 export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProps) {
+    const theme = useTheme();
+    const isDarkMode = theme.palette.mode === 'dark';
+    const t = useTranslations('app');
     const { user, isAuthenticated, logout } = useAuth();
 
     const router = useRouter();
@@ -92,8 +102,8 @@ export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProp
     };
 
     return (
-        <StyledAppBar position="fixed" open={open} drawerWidth={drawerWidth}>
-            <Toolbar>
+        <StyledAppBar position="fixed" open={open} drawerWidth={drawerWidth} className="bg-gray-800 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300" >
+            <Toolbar className="bg-transparent">
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
@@ -103,6 +113,7 @@ export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProp
                 >
                     <MenuIcon />
                 </IconButton>
+
 
                 <Typography
                     variant="h6"
@@ -115,7 +126,7 @@ export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProp
                         flexGrow: 1
                     }}
                 >
-                    Next App
+                    {t('appName')}
                 </Typography>
 
                 <LanguageSwitcher />

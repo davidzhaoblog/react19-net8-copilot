@@ -2,7 +2,7 @@
 
 import { useState, useEffect, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-import { Box, CssBaseline, Toolbar, Container } from '@mui/material';
+import { Box, Toolbar, Container } from '@mui/material';
 import { useAuth } from '@/contexts/AuthContext';
 import AppDrawer from './AppDrawer';
 import AppBar from './AppBar';
@@ -48,8 +48,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      
       {/* App Bar */}
       <AppBar 
         open={open} 
