@@ -20,13 +20,12 @@ import {
   Menu as MenuIcon, 
   Notifications as NotificationsIcon,
   AccountCircle,
-  Brightness4 as DarkModeIcon,
-  Brightness7 as LightModeIcon
+
 } from '@mui/icons-material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { useThemeToggle } from '@/contexts/ThemeContext';
+import ThemeSwitcher from '../ThemeSwitcher';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -54,7 +53,7 @@ const StyledAppBar = styled(MuiAppBar, {
 
 export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProps) {
   const { user, isAuthenticated, logout } = useAuth();
-  const { isDarkMode, toggleTheme } = useThemeToggle();
+
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [notificationAnchorEl, setNotificationAnchorEl] = useState<null | HTMLElement>(null);
@@ -118,11 +117,7 @@ export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProp
           Next App
         </Typography>
 
-        {/* Theme toggle */}
-        <IconButton color="inherit" onClick={toggleTheme} sx={{ ml: 1 }}>
-          {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
-        </IconButton>
-
+                <ThemeSwitcher />
         {isAuthenticated ? (
           <>
             {/* Notifications */}

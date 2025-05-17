@@ -29,13 +29,11 @@ export default async function RootLayout({
             <body className={inter.className}>
                 <AppProviders locale={locale} messages={messages}>
                     <AppLayout>
-                        <ThemeRegistryWithProvider>
                             <div className="content-start items-center justify-items-center">
                                 <main className="flex flex-col row-start-2 content-start items-start sm:items-start">
                                     {children}
                                 </main>
                             </div>
-                        </ThemeRegistryWithProvider>
                     </AppLayout>
                 </AppProviders>
             </body>
