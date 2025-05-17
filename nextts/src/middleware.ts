@@ -33,11 +33,9 @@ export default async function middleware(request: NextRequest) {
 
   if (requiresAuth) {
     // Check for auth token in cookies
-    const hasToken = request.cookies.has('auth_token') || 
-                     request.cookies.has('jwt') || 
-                     request.cookies.has('.AspNetCore.Identity.Application');
-                     
-    if (!hasToken) {
+    const accessToken = request.cookies.get('access_token')?.value;
+    
+    if (!accessToken) {
       // Get locale from path or default to 'en'
       const locale = pathname.split('/')[1] || 'en';
       

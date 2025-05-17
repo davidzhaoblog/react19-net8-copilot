@@ -1,3 +1,5 @@
+import universalCookies from './universalCookieService';
+
 interface TokenPair {
   accessToken: string;
   refreshToken: string;
@@ -15,40 +17,45 @@ class TokenService {
     
     // Store tokens and expiry
     if (typeof window !== 'undefined') {
-      // For client-side only
-      sessionStorage.setItem(this.accessTokenKey, accessToken);
-      // For better security, the refresh token should be stored in an HTTP-only cookie
-      // Here we're using sessionStorage for simplicity
-      sessionStorage.setItem(this.refreshTokenKey, refreshToken);
-      sessionStorage.setItem(this.tokenExpiryKey, expiryTime.toString());
+      // Store tokens in cookies
+      universalCookies.set(this.accessTokenKey, accessToken, { 
+        expires: new Date(expiryTime * 1000) 
+      });
+      
+      universalCookies.set(this.refreshTokenKey, refreshToken, { 
+        expires: 30 // 30 days 
+      });
+      
+      // Store expiry in localStorage for easy access
+      localStorage.setItem(this.tokenExpiryKey, expiryTime.toString());
     }
   }
   
   // Get access token
-  getAccessToken(): string | null {
-    if (typeof window === 'undefined') return null;
-    return sessionStorage.getItem(this.accessTokenKey);
+  getAccessToken(): string | undefined {
+    if (typeof window === 'undefined') return undefined;
+    return universalCookies.get(this.accessTokenKey);
   }
   
   // Get refresh token
-  getRefreshToken(): string | null {
-    if (typeof window === 'undefined') return null;
-    return sessionStorage.getItem(this.refreshTokenKey);
+  getRefreshToken(): string | undefined {
+    if (typeof window === 'undefined') return undefined;
+    return universalCookies.get(this.refreshTokenKey);
   }
   
   // Get token expiry
   getTokenExpiry(): number {
     if (typeof window === 'undefined') return 0;
-    const expiry = sessionStorage.getItem(this.tokenExpiryKey);
+    const expiry = universalCookies.get(this.tokenExpiryKey);
     return expiry ? parseInt(expiry, 10) : 0;
   }
   
   // Clear tokens
   clearTokens(): void {
     if (typeof window === 'undefined') return;
-    sessionStorage.removeItem(this.accessTokenKey);
-    sessionStorage.removeItem(this.refreshTokenKey);
-    sessionStorage.removeItem(this.tokenExpiryKey);
+    universalCookies.remove(this.accessTokenKey);
+    universalCookies.remove(this.refreshTokenKey);
+    universalCookies.remove(this.tokenExpiryKey);
   }
   
   // Check if access token is expired or will expire soon (buffer time in seconds)
@@ -59,6 +66,11 @@ class TokenService {
     // Current time plus buffer
     const currentTime = Math.floor(Date.now() / 1000) + bufferTime;
     return currentTime >= expiry;
+  }
+    
+  // Check if we're authenticated
+  isAuthenticated(): boolean {
+    return !!this.getAccessToken() && !this.isTokenExpired();
   }
 }
 

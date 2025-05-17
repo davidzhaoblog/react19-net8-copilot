@@ -15,7 +15,7 @@ export default getRequestConfig(async ({requestLocale}) => {
   let messages;
   try {
     messages = (await import(`@/i18n/messages/${locale}.json`)).default;
-    console.log(`Loaded messages for locale: ${locale}`, messages);
+    // console.log(`Loaded messages for locale: ${locale}`, messages);
   } catch (error) {
     console.error(`Failed to load messages for locale: ${locale}`, error);
     // Fallback to empty messages rather than crashing
@@ -25,7 +25,7 @@ export default getRequestConfig(async ({requestLocale}) => {
   return {
     locale,
     messages,
-    // You can add date, number, and time formats here too
-    timeZone: 'UTC',
+    // // You can add date, number, and time formats here too
+    // timeZone: 'UTC',
   };
 });

@@ -97,8 +97,8 @@ export default function AppBar({ open, drawerWidth, onDrawerToggle }: AppBarProp
     };
 
     const getInitials = () => {
-        if (!user?.name) return user?.email?.[0]?.toUpperCase() || '?';
-        return user.name.charAt(0).toUpperCase();
+        if (!user?.username) return user?.email?.[0]?.toUpperCase() || '?';
+        return user.username.charAt(0).toUpperCase();
     };
 
     return (

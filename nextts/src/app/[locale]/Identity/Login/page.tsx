@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,25 +20,28 @@ import {
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 
-// Define validation schema
+// Schema definition remains the same
 const loginSchema = z.object({
-    email: z.string()
-        .email('Please enter a valid email address'),
-    password: z.string()
-        .min(6, 'Password must be at least 6 characters'),
+    email: z.string().email('Please enter a valid email address'),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
     rememberMe: z.boolean().optional()
 });
 
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+    // State initialization
     const router = useRouter();
     const searchParams = useSearchParams();
-    const returnUrl = searchParams.get('returnUrl') || '/';
+    const rawReturnUrl = searchParams?.get('returnUrl') || '/';
+    const returnUrl = rawReturnUrl.startsWith('/') ? rawReturnUrl : '/';
+    
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const { login, isAuthenticated } = useAuth();
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+    const { login, isAuthenticated, isLoading: authLoading } = useAuth();
 
+    // Form setup
     const {
         register,
         handleSubmit,
@@ -52,11 +55,30 @@ export default function LoginPage() {
         }
     });
 
-    // Redirect if already authenticated
-    if (isAuthenticated) {
-        router.push(returnUrl);
-    }
+    // Memoized redirect function
+    const performRedirect = useCallback(() => {
+        router.replace(returnUrl);
+        setShouldRedirect(false); // Reset the redirect flag
+    }, [router, returnUrl]);
 
+    // Check auth status and set redirect flag
+    useEffect(() => {
+        // Only set the redirect flag if authenticated and not loading
+        if (isAuthenticated && !authLoading) {
+            setShouldRedirect(true);
+        }
+    }, [isAuthenticated, authLoading]);
+
+    // Separate effect for navigation to avoid render cycle issues
+    useEffect(() => {
+        // Only navigate if the flag is set
+        if (shouldRedirect) {
+            const timer = setTimeout(performRedirect, 100);
+            return () => clearTimeout(timer);
+        }
+    }, [shouldRedirect, performRedirect]);
+
+    // Form submission handler
     const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
         setIsSubmitting(true);
         setError(null);
@@ -65,7 +87,8 @@ export default function LoginPage() {
             const result = await login(data.email, data.password, data.rememberMe || false);
 
             if (result.success) {
-                router.push(returnUrl);
+                // Set the redirect flag instead of directly navigating
+                setShouldRedirect(true);
             } else {
                 setError(result.error || 'Invalid email or password.');
             }
@@ -77,6 +100,28 @@ export default function LoginPage() {
         }
     };
 
+    // Loading state during auth check
+    if (authLoading) {
+        return (
+            <Box className="flex justify-center items-center min-h-screen">
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    // Redirect state
+    if (shouldRedirect) {
+        return (
+            <Box className="flex justify-center items-center min-h-screen">
+                <CircularProgress size={24} />
+                <Typography variant="body1" className="ml-3">
+                    Redirecting...
+                </Typography>
+            </Box>
+        );
+    }
+
+    // Main render
     return (
         <Box className="flex justify-center items-start min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-transparent">
             <Paper elevation={3} className="p-8 max-w-md w-full">

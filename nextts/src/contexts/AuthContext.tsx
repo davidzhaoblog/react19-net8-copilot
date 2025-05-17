@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 interface User {
   id: string;
   email: string;
-  name?: string;
+  username?: string;
   roles: string[];
 }
 
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return {
         id: decoded.sub || decoded.nameid,
         email: decoded.email,
-        name: decoded.name,
+        username: decoded.name,
         roles: decoded.role ? (Array.isArray(decoded.role) ? decoded.role : [decoded.role]) : []
       };
     } catch (error) {
@@ -66,9 +66,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           
           if (refreshed) {
             // If refresh successful, get the new token
-            const newToken = tokenService.getAccessToken();
-            const userData = parseUserFromToken(newToken);
-            setUser(userData);
+            const userProfile = await authService.getUserProfile();
+            setUser({...userProfile.data} as User);
+
+            // const newToken = tokenService.getAccessToken();
+            // const userData = parseUserFromToken(newToken);
+            // setUser(userData);
             setIsAuthenticated(true);
           } else {
             // If refresh failed, clear auth state
@@ -77,8 +80,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
         } else {
           // If token valid, set user from token
-          const userData = parseUserFromToken(token);
-          setUser(userData);
+            const userProfile = await authService.getUserProfile();
+            setUser({...userProfile.data} as User);
+        //   const userData = parseUserFromToken(token);
+        //   setUser(userData);
           setIsAuthenticated(true);
         }
       } else {
@@ -98,9 +103,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const result = await authService.login(email, password, rememberMe);
     
     if (result.success) {
-      const token = tokenService.getAccessToken();
-      const userData = parseUserFromToken(token);
-      setUser(userData);
+      const userProfile = await authService.getUserProfile();
+      // const token = tokenService.getAccessToken();
+      // const userData = parseUserFromToken(token);
+      setUser({...userProfile.data} as User);
       setIsAuthenticated(true);
     }
     
@@ -119,9 +125,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const result = await authService.refreshToken();
     
     if (result) {
-      const token = tokenService.getAccessToken();
-      const userData = parseUserFromToken(token);
-      setUser(userData);
+            const userProfile = await authService.getUserProfile();
+            setUser({...userProfile.data} as User);
+
+    //   const token = tokenService.getAccessToken();
+    //   const userData = parseUserFromToken(token);
+    //   setUser(userData);
       setIsAuthenticated(true);
     } else {
       setUser(null);
