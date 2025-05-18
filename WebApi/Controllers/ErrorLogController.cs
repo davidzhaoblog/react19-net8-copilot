@@ -1,4 +1,5 @@
 using AdventureWorksLT2019.EFDbContext;
+using AdventureWorksLT2019.Models;
 using AdventureWorksLT2019.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,13 @@ namespace AdventureWorksLT2019.WebApi.Controllers
 
             await _errorLogService.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("Search")]
+        public async Task<IActionResult> Search([FromQuery]ErrorLogQuery query)
+        {
+            var result = await _errorLogService.SearchAsync(query);
+            return Ok(result);
         }
     }
 }
