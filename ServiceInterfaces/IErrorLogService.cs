@@ -1,4 +1,6 @@
 using AdventureWorksLT2019.EFDbContext;
+using AdventureWorksLT2019.Models;
+using AdventureWorksLT2019.Shared;
 
 namespace AdventureWorksLT2019.ServiceInterfaces
 {
@@ -9,5 +11,6 @@ namespace AdventureWorksLT2019.ServiceInterfaces
         Task AddAsync(ErrorLog errorLog);
         Task UpdateAsync(ErrorLog errorLog);
         Task DeleteAsync(int id);
+        Task<PagedResult<ErrorLog>> SearchAsync(ErrorLogQuery query);
     }
 }
