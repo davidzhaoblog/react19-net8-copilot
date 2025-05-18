@@ -8,8 +8,9 @@ import { jwtDecode } from 'jwt-decode';
 interface User {
   id: string;
   email: string;
-  username?: string;
+  userName?: string;
   roles: string[];
+  emailConfirmed?: boolean;
 }
 
 interface AuthContextType {
@@ -19,6 +20,8 @@ interface AuthContextType {
   login: (email: string, password: string, rememberMe?: boolean) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   refreshTokens: () => Promise<boolean>;
+  hasRole: (role: string | string[]) => boolean;
+  getUserProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,28 +31,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Parse user from token
-  // This function decodes the JWT token and extracts user information
-  // such as id, email, name, and roles.
-  // In case of an error during decoding, it returns null.
-  // When return null, should call another webapi to get user info.
-  const parseUserFromToken = (token: string | null): User | null => {
-    if (!token) return null;
+//   // Parse user from token
+//   // This function decodes the JWT token and extracts user information
+//   // such as id, email, name, and roles.
+//   // In case of an error during decoding, it returns null.
+//   // When return null, should call another webapi to get user info.
+//   const parseUserFromToken = (token: string | null): User | null => {
+//     if (!token) return null;
     
-    try {
-      const decoded = jwtDecode<any>(token);
+//     try {
+//       const decoded = jwtDecode<any>(token);
 
-      return {
-        id: decoded.sub || decoded.nameid,
-        email: decoded.email,
-        username: decoded.name,
-        roles: decoded.role ? (Array.isArray(decoded.role) ? decoded.role : [decoded.role]) : []
-      };
-    } catch (error) {
-      console.error('Failed to decode token:', error);
-      return null;
-    }
-  };
+//       return {
+//         id: decoded.sub || decoded.nameid,
+//         email: decoded.email,
+//         username: decoded.name,
+//         roles: decoded.role ? (Array.isArray(decoded.role) ? decoded.role : [decoded.role]) : []
+//       };
+//     } catch (error) {
+//       console.error('Failed to decode token:', error);
+//       return null;
+//     }
+//   };
 
   // Initialize auth state from stored tokens
   useEffect(() => {
@@ -139,6 +142,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     return result;
   };
+  
+  // 
+    // Logout function
+  const getUserProfile = async () => {
+            const userProfile = await authService.getUserProfile();
+            setUser({...userProfile.data} as User);
+  };
+
+  // Function to check roles
+  const hasRole = (role: string | string[]): boolean => {
+    if (!user || !user.roles) return false;
+    
+    if (Array.isArray(role)) {
+      return role.some(r => user.roles.includes(r));
+    }
+    
+    return user.roles.includes(role);
+  };
 
   return (
     <AuthContext.Provider
@@ -149,6 +170,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         refreshTokens,
+        hasRole,
+        getUserProfile
       }}
     >
       {children}

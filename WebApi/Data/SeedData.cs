@@ -13,39 +13,59 @@ namespace AdventureWorksLT2019.WebApi.Data
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             // Define roles
-            var roles = new[] { "Owner", "Visitor", "Employee", "SystemAdmin", "BasicUser", "Consumer" };
-
-            // Ensure roles exist
-            foreach (var role in roles)
             {
-                if (!await roleManager.RoleExistsAsync(role))
+                var roles = new[] { "Owner", "Visitor", "Employee", "SystemAdmin", "BasicUser", "Consumer" };
+
+                // Ensure roles exist
+                foreach (var role in roles)
                 {
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
                 }
             }
 
-            // Create SystemAdministrator user
-            var adminUserName = "admintest@exampletest.com";
-            var adminPassword = "Te$t!234";
-
-            if (await userManager.FindByNameAsync(adminUserName) == null)
+            // 1. Create SystemAdministrator user
             {
-                var adminUser = new IdentityUser
+                var userName = "admintest@exampletest.com";
+                var password = "Te$t!234";
+                var roles = new[] { "SystemAdmin" };
+                await CreateUserAsync(userManager, userName, password, roles);
+            }
+
+            // 2. Create visitor user
+            {
+                var userName = "visitortest@exampletest.com";
+                var password = "Te$t!234";
+                var roles = new[] { "Visitor" };
+                await CreateUserAsync(userManager, userName, password, roles);
+            }
+        }
+
+        private static async Task CreateUserAsync(UserManager<IdentityUser> userManager, string userName, string password, string[] roles)
+        {
+            if (await userManager.FindByNameAsync(userName) == null)
+            {
+                var user = new IdentityUser
                 {
-                    UserName = adminUserName,
-                    Email = "admintest@exampletest.com",
+                    UserName = userName,
+                    Email = userName,
                     EmailConfirmed = true
                 };
 
-                var result = await userManager.CreateAsync(adminUser, adminPassword);
+                var result = await userManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
-                    // Assign SystemAdmin role to the user
-                    await userManager.AddToRoleAsync(adminUser, "SystemAdmin");
+                    foreach (var role in roles)
+                    {
+                        // Assign SystemAdmin role to the user
+                        await userManager.AddToRoleAsync(user, role);
+                    }
                 }
                 else
                 {
-                    throw new Exception($"Failed to create SystemAdministrator user: {string.Join(", ", result.Errors)}");
+                    throw new Exception($"Failed to create {userName} user: {string.Join(", ", result.Errors)}");
                 }
             }
         }

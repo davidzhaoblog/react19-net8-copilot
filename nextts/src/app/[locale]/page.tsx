@@ -3,9 +3,10 @@ import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import HomePageClient from '@/components/home/HomePageClient';
 
-export async function generateMetadata({ params: { locale } }: { 
-  params: { locale: string } 
+export async function generateMetadata({ params }: { 
+  params: Promise<{ locale: string }> 
 }): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'app' });
   
   return {
@@ -21,6 +22,6 @@ export async function generateMetadata({ params: { locale } }: {
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
-    const { locale } = await params;
+  const { locale } = await params;
   return <HomePageClient locale={locale} />;
 }

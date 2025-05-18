@@ -2,6 +2,10 @@
   "app": {
     "appName": "adventureWorksLT2019",
     "title": "adventureWorksLT2019",
+    "pageTitle": "adventureWorksLT2019",
+    "pageDescription": "adventureWorksLT2019",
+    "ogTitle": "adventureWorksLT2019",
+    "ogDescription": "adventureWorksLT2019",
     "common": {
       "welcome": "Welcome to Next.js",
       "description": "Get started by editing"

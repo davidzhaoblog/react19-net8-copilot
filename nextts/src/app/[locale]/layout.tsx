@@ -22,7 +22,7 @@ export default async function RootLayout({
     params: { locale: string };
 }) {
     const { locale } = await params;
-    const messages = (await import(`@/i18n/messages/${locale}.json`)).default;
+    const messages = (await import(`../../i18n/messages/${locale}.json`)).default;
 
     return (
         <html lang={locale} suppressHydrationWarning>

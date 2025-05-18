@@ -78,6 +78,7 @@ namespace AdventureWorksLT2019.WebApi
                         Email = curUser?.Email,
                         UserName = curUser?.UserName,
                         Roles = roles,
+                        EmailConfirmed = curUser?.EmailConfirmed,
                     };
 
                     return await Task.FromResult(response);

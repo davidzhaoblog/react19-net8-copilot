@@ -32,8 +32,8 @@ interface UserProfile {
 }
 
 export default function ProfilePage() {
-    const { user, isAuthenticated, isLoading: authLoading } = useAuth();
-    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const { user, isAuthenticated, isLoading: authLoading, getUserProfile } = useAuth();
+    //const [profile, setProfile] = useState<UserProfile | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -42,12 +42,7 @@ export default function ProfilePage() {
             if (isAuthenticated) {
                 setIsLoading(true);
                 try {
-                    const result = await authService.getUserProfile();
-                    if (result.success && result.data) {
-                        setProfile(result.data);
-                    } else {
-                        setError(result.error || 'Failed to load profile data');
-                    }
+                    await getUserProfile();
                 } catch (err) {
                     console.error('Error fetching profile:', err);
                     setError('An unexpected error occurred while loading your profile');
@@ -117,17 +112,17 @@ export default function ProfilePage() {
                                 sx={{ width: 128, height: 128, fontSize: 64, mb: 2 }}
                                 className="bg-blue-600"
                             >
-                                {profile?.firstName?.[0] || profile?.userName?.[0] || 'U'}
+                                {user?.userName?.[0] || 'U'}
                             </Avatar>
-                            <Typography variant="h5" className="font-medium">
+                            {/* <Typography variant="h5" className="font-medium">
                                 {profile?.firstName} {profile?.lastName}
-                            </Typography>
+                            </Typography> */}
                             <Typography variant="body1" color="textSecondary">
-                                @{profile?.userName}
+                                @{user?.userName}
                             </Typography>
 
                             <Box className="mt-3">
-                                {profile?.roles?.map(role => (
+                                {user?.roles?.map(role => (
                                     <Chip
                                         key={role}
                                         label={role}
@@ -146,9 +141,9 @@ export default function ProfilePage() {
                             <ListItem>
                                 <ListItemText
                                     primary="Email Verification"
-                                    secondary={profile?.emailConfirmed ? "Verified" : "Not verified"}
+                                    secondary={user?.emailConfirmed ? "Verified" : "Not verified"}
                                 />
-                                {!profile?.emailConfirmed && (
+                                {!user?.emailConfirmed && (
                                     <Link href="/Identity/ResendEmailConfirmation" passHref>
                                         <Button size="small" variant="outlined">
                                             Verify
@@ -173,26 +168,26 @@ export default function ProfilePage() {
                         </Typography>
 
                         <List>
-                            {profile?.firstName && profile?.lastName && (
+                            {/* {profile?.firstName && profile?.lastName && (
                                 <ListItem divider>
                                     <ListItemText
                                         primary="Full Name"
                                         secondary={`${profile.firstName} ${profile.lastName}`}
                                     />
                                 </ListItem>
-                            )}
+                            )} */}
                             <ListItem divider>
                                 <ListItemText
                                     primary="Username"
-                                    secondary={profile?.userName}
+                                    secondary={user?.userName}
                                 />
                             </ListItem>
                             <ListItem>
                                 <ListItemText
                                     primary="Email Address"
-                                    secondary={profile?.email}
+                                    secondary={user?.email}
                                 />
-                                {profile?.emailConfirmed ? (
+                                {user?.emailConfirmed ? (
                                     <Chip
                                         icon={<VerifiedUser fontSize="small" />}
                                         label="Verified"
