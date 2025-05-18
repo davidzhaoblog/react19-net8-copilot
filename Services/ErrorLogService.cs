@@ -1,6 +1,8 @@
 using AdventureWorksLT2019.EFDbContext;
+using AdventureWorksLT2019.Models;
 using AdventureWorksLT2019.RepositoriesInterfaces;
 using AdventureWorksLT2019.ServiceInterfaces;
+using AdventureWorksLT2019.Shared;
 
 namespace AdventureWorksLT2019.Services
 {
@@ -36,6 +38,11 @@ namespace AdventureWorksLT2019.Services
         public async Task DeleteAsync(int id)
         {
             await _errorLogRepository.DeleteAsync(id);
+        }
+
+        public async Task<PagedResult<ErrorLog>> SearchAsync(ErrorLogQuery query)
+        {
+            return await _errorLogRepository.SearchAsync(query);
         }
     }
 }

@@ -1,6 +1,9 @@
 using AdventureWorksLT2019.EFDbContext;
+using AdventureWorksLT2019.Models;
 using AdventureWorksLT2019.RepositoriesInterfaces;
+using AdventureWorksLT2019.Shared;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace AdventureWorksLT2019.MSSqlRepositories
 {
@@ -48,6 +51,63 @@ namespace AdventureWorksLT2019.MSSqlRepositories
                 _context.ErrorLogs.Remove(errorLog);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<AdventureWorksLT2019.Shared.PagedResult<ErrorLog>> SearchAsync(ErrorLogQuery query)
+        {
+            IQueryable<ErrorLog> q = SearchQuery(query);
+
+            var orderBy = OrderByUtility.ParseOrderBy(query.OrderBy);
+            // Apply ordering
+            if (!string.IsNullOrEmpty(orderBy))
+            {
+                q = q.OrderBy(orderBy);
+            }
+            else
+            {
+                // Default ordering
+                q = q.OrderByDescending(e => e.ErrorTime);
+            }
+
+            // Pagination
+            q = q.Skip(query.PageIndex * query.PageSize).Take(query.PageSize);
+
+            IQueryable<ErrorLog> qCount = SearchQuery(query);
+            var result = new AdventureWorksLT2019.Shared.PagedResult<ErrorLog>
+            {
+                TotalCount = await qCount.CountAsync(),
+                PageIndex = query.PageIndex,
+                PageSize = query.PageSize,
+                Items = await q.ToListAsync()
+            };
+
+            return result;
+        }
+
+        private IQueryable<ErrorLog> SearchQuery(ErrorLogQuery query)
+        {
+            var q = _context.ErrorLogs.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.Text))
+            {
+                q = q.Where(e =>
+                    e.UserName.Contains(query.Text) ||
+                    e.ErrorMessage.Contains(query.Text) ||
+                    (e.ErrorProcedure != null && e.ErrorProcedure.Contains(query.Text)));
+            }
+
+            if (query.ErrorTimeFrom.HasValue)
+                q = q.Where(e => e.ErrorTime >= query.ErrorTimeFrom.Value);
+
+            if (query.ErrorTimeTo.HasValue)
+                q = q.Where(e => e.ErrorTime <= query.ErrorTimeTo.Value);
+
+            if (query.ErrorSeverities != null && query.ErrorSeverities.Any())
+                q = q.Where(e => query.ErrorSeverities.Contains(e.ErrorSeverity ?? 0));
+
+            if (query.ErrorStates != null && query.ErrorStates.Any())
+                q = q.Where(e => query.ErrorStates.Contains(e.ErrorState ?? 0));
+            return q;
         }
     }
 }
