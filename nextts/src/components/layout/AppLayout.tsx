@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect, ReactNode, memo } from 'react';
 import { usePathname } from 'next/navigation';
-import { Box, Toolbar, Container } from '@mui/material';
+import { Box, Toolbar, Container, useTheme, useMediaQuery, CircularProgress } from '@mui/material';
 import { useAuth } from '@/contexts/AuthContext';
-import AppDrawer from './AppDrawer';
-import AppBar from './AppBar';
+import AppDrawer from '@/components/layout/AppDrawer';
+import AppBar from '@/components/layout/AppBar';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const drawerWidth = 240;
 
@@ -13,7 +14,10 @@ interface AppLayoutProps {
     children: ReactNode;
 }
 
-export default function AppLayout({ children }: AppLayoutProps) {
+export default memo(function AppLayout({ children }: AppLayoutProps) {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    console.log('isMobile:', isMobile);
 
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
@@ -21,10 +25,31 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
     // Close drawer when navigating to a new page on mobile
     useEffect(() => {
-        if (window.innerWidth < 900) {
+        if (isMobile) {
             setOpen(false);
         }
-    }, [pathname]);
+    }, [pathname, isMobile]);
+
+    // Persist drawer state in localStorage
+    useEffect(() => {
+        // Only load from localStorage on first render
+        const savedDrawerState = localStorage.getItem('drawerOpen');
+        if (savedDrawerState !== null) {
+            setOpen(savedDrawerState === 'true' && !isMobile);
+        }
+    }, [isMobile]);
+
+    // Add this effect to handle window resizing
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 900 && open) {
+                setOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [open]);
 
     // Persist drawer state in localStorage
     useEffect(() => {
@@ -43,6 +68,13 @@ export default function AppLayout({ children }: AppLayoutProps) {
         localStorage.setItem('drawerOpen', open.toString());
     }, [open]);
 
+    // Handle window resize
+    useEffect(() => {
+        if (isMobile && open) {
+            setOpen(false);
+        }
+    }, [isMobile, open]);
+
     const handleDrawerToggle = () => {
         setOpen(!open);
     };
@@ -51,18 +83,20 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <Box sx={{ display: 'flex' }}>
             {/* App Bar */}
             <AppBar
-                open={open}
+                open={open && isAuthenticated}
                 drawerWidth={drawerWidth}
                 onDrawerToggle={handleDrawerToggle}
+                aria-expanded={open && isAuthenticated}
             />
 
             {/* Drawer */}
-            {open && isAuthenticated && <AppDrawer
-                open={open}
+            {<AppDrawer
+                open={open && isAuthenticated}
                 drawerWidth={drawerWidth}
                 onDrawerToggle={handleDrawerToggle}
                 isAuthenticated={isAuthenticated}
                 isLoading={isLoading}
+                aria-hidden={!open || !isAuthenticated}
             />
             }
 
@@ -78,10 +112,18 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 }}
             >
                 <Toolbar /> {/* This provides spacing below the AppBar */}
+                {isLoading ? (
+  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+    <CircularProgress />
+  </Box>
+) : (
                 <Container maxWidth="xl" sx={{ mt: 2, mb: 4 }}>
-                    {children}
+                    <ErrorBoundary>
+                        {children}
+                    </ErrorBoundary>
                 </Container>
+)}
             </Box>
         </Box>
     );
-}
+});

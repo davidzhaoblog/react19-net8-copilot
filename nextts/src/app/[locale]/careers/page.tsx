@@ -5,7 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
     const t = await getTranslations({ locale, namespace: 'careers' });
 
     return {
@@ -50,7 +51,8 @@ const jobListings = [
     },
 ];
 
-export default async function CareersPage({ params: { locale } }: { params: { locale: string } }) {
+export default async function CareersPage({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
     const t = await getTranslations({ locale, namespace: 'careers' });
 
     return (
