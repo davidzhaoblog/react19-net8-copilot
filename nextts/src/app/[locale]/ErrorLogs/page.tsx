@@ -27,8 +27,6 @@ export default async function ErrorLogsPage({
     const { locale } = await params;
     const t = await getTranslations('errorLogs');
     const searchParams2 = await searchParams;
-    console.log('Search params:', searchParams2);
-
 
     const query: ErrorLogQuery = {
         pageIndex: searchParams2?.page ? Math.max(0, parseInt(searchParams2?.page) - 1) : 0,
@@ -38,7 +36,7 @@ export default async function ErrorLogsPage({
         errorTimeFrom: searchParams2?.errorTimeFrom,
         errorTimeTo: searchParams2?.errorTimeTo,
     };
-    console.log('Parsed query:', query);
+
     // Handle array parameters
     if (searchParams2?.errorSeverities) {
         if (Array.isArray(searchParams2.errorSeverities)) {
