@@ -68,7 +68,7 @@ export default function ErrorLogGrid({
     // Fetch error logs with React Query
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ['errorLogs', query],
-        queryFn: () => service!.searchErrorLogs(query, {skipAuth: true, skipRefresh: true}),
+        queryFn: () => service!.searchErrorLogs(query, {skipAuth: !requireAuth, skipRefresh: !requireAuth}),
         // If initialQuery is provided, use it as initialData
         initialData: initialQuery && 'items' in initialQuery ? initialQuery as any : undefined,
     });
