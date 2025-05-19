@@ -1,5 +1,3 @@
-'use client';
-
 import { ReactNode } from 'react';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { NextIntlClientProvider } from 'next-intl';

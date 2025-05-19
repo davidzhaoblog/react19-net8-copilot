@@ -1,12 +1,10 @@
-// src/app/[locale]/layout.tsx
-import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css";
 import { locales } from '@/i18n/locale';
-import ThemeRegistryWithProvider from '@/components/ThemeRegistry';
 import { ReactNode } from 'react';
 import { Inter } from 'next/font/google';
 import AppProviders from '@/providers/AppProviders';
 import AppLayout from '@/components/layout/AppLayout';
+import "../globals.css";
+import QueryProvider from '@/providers/QueryProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,13 +26,15 @@ export default async function RootLayout({
         <html lang={locale} suppressHydrationWarning>
             <body className={inter.className}>
                 <AppProviders locale={locale} messages={messages}>
-                    <AppLayout>
+                    <QueryProvider>
+                        <AppLayout>
                             <div className="content-start items-center justify-items-center">
                                 <main className="flex flex-col row-start-2 content-start items-start sm:items-start">
                                     {children}
                                 </main>
                             </div>
-                    </AppLayout>
+                        </AppLayout>
+                    </QueryProvider>
                 </AppProviders>
             </body>
         </html>
