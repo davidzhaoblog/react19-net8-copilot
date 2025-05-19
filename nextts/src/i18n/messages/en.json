@@ -196,5 +196,30 @@
       "description": "If you'd like to learn more about our team or have any questions, we'd love to hear from you.",
       "button": "Contact Us"
     }
+  },
+  "errorLogs": {
+    "metaTitle": "Error Logs | Next.js App",
+    "metaDescription": "View the latest error logs and system status.",
+    "title": "Error Logs",
+    "subtitle": "Monitor the health of your application with real-time error logs.",
+    "logTable": {
+      "date": "Date",
+      "level": "Level",
+      "message": "Message",
+      "stackTrace": "Stack Trace"
+    },
+    "noLogs": {
+      "title": "No Error Logs Found",
+      "description": "Your application is running smoothly with no errors reported."
+    },
+    "errorLogList": {
+      "title": "Error Log List",
+      "description": "View the latest error logs and system status.",
+      "logDetails": {
+        "title": "Log Details",
+        "description": "View detailed information about the selected error log."
+      }
+    },
+    "errorFetching": "Error fetching logs"
   }
 }

@@ -84,6 +84,11 @@ const navItems: NavItem[] = [
         path: '/contact',
         icon: <ContactMail />
     },
+    {
+        title: 'ErrorLog',
+        path: '/ErrorLog',
+        icon: <ContactMail />
+    },
     // Existing items...
 ];
 

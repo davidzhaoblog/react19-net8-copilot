@@ -20,7 +20,15 @@ const PROTECTED_ROUTES = [
 
 export default async function middleware(request: NextRequest) {
   // Get the path that will be processed by the intl middleware
+
+  console.log('Original URL:', request.nextUrl.pathname);
   const response = intlMiddleware(request);
+    
+  // If the response is a redirect, log it
+  if (response instanceof NextResponse && response.headers.get('Location')) {
+    console.log('Redirecting to:', response.headers.get('Location'));
+  }
+  
   const pathname = request.nextUrl.pathname;
 
   // Check if the route requires authentication

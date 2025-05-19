@@ -4,6 +4,12 @@ import { useState } from 'react';
 import { get, post, put, patch, del } from '@/utils/fetchClient';
 import { useAuth } from '@/contexts/AuthContext';
 
+// Types that match your useAuthenticatedApi return types
+export type ApiGet = <T>(url: string, options?: any) => Promise<T | null>;
+export type ApiPost = <T>(url: string, data?: any, options?: any) => Promise<T | null>;
+export type ApiPut = <T>(url: string, data?: any, options?: any) => Promise<T | null>;
+export type ApiDelete = <T>(url: string, options?: any) => Promise<T | null>;
+
 export function useAuthenticatedApi() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -64,3 +70,4 @@ export function useAuthenticatedApi() {
     error,
   };
 }
+
