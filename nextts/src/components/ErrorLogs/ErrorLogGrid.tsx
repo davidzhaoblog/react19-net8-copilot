@@ -31,6 +31,7 @@ import {
 } from '@mui/icons-material';
 import { format } from 'date-fns';
 import defaultErrorLogService, { useAuthenticatedErrorLogService } from '@/services/ErrorLogService';
+import { arraysEqual } from '@/utils/utilHelper';
 
 interface ErrorLogGridProps {
     initialQuery?: Partial<ErrorLogQuery>;
