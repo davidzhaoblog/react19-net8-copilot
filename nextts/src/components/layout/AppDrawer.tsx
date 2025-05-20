@@ -86,10 +86,14 @@ const navItems: NavItem[] = [
     },
     {
         title: 'ErrorLog',
-        path: '/ErrorLog',
+        path: '/ErrorLogs',
         icon: <ContactMail />
     },
-    // Existing items...
+    {
+        title: 'Admin ErrorLog',
+        path: '/Admin/ErrorLogs',
+        icon: <ContactMail />
+    },
 ];
 
 // const navItems: NavItem[] = [
@@ -284,7 +288,7 @@ export default function AppDrawer({
 
     return (
         <Drawer
-            variant={isMobile ? 'temporary' : 'persistent'}
+            variant={isMobile ? 'temporary' : (open ? 'persistent' : 'temporary')}
             open={open}
             onClose={onDrawerToggle}
             sx={{

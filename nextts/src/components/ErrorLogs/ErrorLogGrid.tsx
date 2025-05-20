@@ -66,12 +66,15 @@ export default function ErrorLogGrid({
     });
 
     // Fetch error logs with React Query
-    const { data, isLoading, isError, error } = useQuery({
-        queryKey: ['errorLogs', query],
-        queryFn: () => service!.searchErrorLogs(query, {skipAuth: !requireAuth, skipRefresh: !requireAuth}),
-        // If initialQuery is provided, use it as initialData
-        initialData: initialQuery && 'items' in initialQuery ? initialQuery as any : undefined,
-    });
+const { data, isLoading, isError, error } = useQuery({
+  queryKey: ['errorLogs', query], // This is good - it will refetch when query changes
+  queryFn: () => service!.searchErrorLogs(query, { skipAuth: !requireAuth, skipRefresh: !requireAuth }),
+  initialData: initialQuery && 'items' in initialQuery ? initialQuery as any : undefined,
+  // Add these options:
+  refetchOnMount: true,
+  refetchOnWindowFocus: false, // Only refetch when explicitly triggered
+  staleTime: 30000, // Consider data fresh for 30 seconds
+});
 
     // Sync URL with query state when query changes
     useEffect(() => {
@@ -172,6 +175,21 @@ export default function ErrorLogGrid({
         }
     };
 
+    // Add sorting functionality
+    const handleSortChange = (field: string) => {
+        const currentOrderBy = query.orderBy || 'ErrorTime desc';
+        const [currentField, currentDirection] = currentOrderBy.split(' ');
+
+        // Toggle direction if same field, otherwise set to 'asc'
+        const newDirection = (currentField === field && currentDirection === 'asc') ? 'desc' : 'asc';
+        const newOrderBy = `${field} ${newDirection}`;
+
+        setQuery({
+            ...query,
+            orderBy: newOrderBy
+        });
+    };
+
     // Loading skeleton
     if (isLoading) {
         return (
@@ -183,7 +201,7 @@ export default function ErrorLogGrid({
 
                 <Grid container spacing={3}>
                     {Array.from(new Array(6)).map((_, index) => (
-                        <Grid size={{xs:12, sm:6, md:4, lg:3}} key={index}>
+                        <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={index}>
                             <Card className="h-full">
                                 <CardContent>
                                     <Box className="flex justify-between items-start mb-2">
@@ -246,7 +264,7 @@ export default function ErrorLogGrid({
                         const severityInfo = getSeverityInfo(logItem.errorSeverity);
 
                         return (
-                            <Grid size={{xs:12, sm:6, md:4, lg:3}} key={logItem.errorLogId}>
+                            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={logItem.errorLogId}>
                                 <Card
                                     elevation={3}
                                     className="h-full flex flex-col cursor-pointer hover:shadow-lg transition-shadow"

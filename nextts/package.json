@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^5.0.1",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
+    "@mui/x-date-pickers": "^8.3.1",
     "@next/codemod": "^15.3.2",
     "@tanstack/react-query": "^5.76.1",
     "@tanstack/react-query-devtools": "^5.76.1",

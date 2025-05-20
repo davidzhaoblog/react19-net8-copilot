@@ -105,6 +105,10 @@ export default memo(function AppLayout({ children }: AppLayoutProps) {
                 component="main"
                 sx={{
                     flexGrow: 1,
+                    width: {
+                        sm: `calc(100% - ${(open && isAuthenticated) ? drawerWidth : 0}px)`
+                    },
+
                     transition: theme => theme.transitions.create(['margin', 'width'], {
                         easing: theme.transitions.easing.sharp,
                         duration: theme.transitions.duration.leavingScreen,
@@ -113,16 +117,16 @@ export default memo(function AppLayout({ children }: AppLayoutProps) {
             >
                 <Toolbar /> {/* This provides spacing below the AppBar */}
                 {isLoading ? (
-  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-    <CircularProgress />
-  </Box>
-) : (
-                <Container maxWidth="xl" sx={{ mt: 2, mb: 4 }}>
-                    <ErrorBoundary>
-                        {children}
-                    </ErrorBoundary>
-                </Container>
-)}
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                        <CircularProgress />
+                    </Box>
+                ) : (
+                    <Container maxWidth="xl" sx={{ mt: 2, mb: 4 }}>
+                        <ErrorBoundary>
+                            {children}
+                        </ErrorBoundary>
+                    </Container>
+                )}
             </Box>
         </Box>
     );
