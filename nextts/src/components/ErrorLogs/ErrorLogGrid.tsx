@@ -66,15 +66,15 @@ export default function ErrorLogGrid({
     });
 
     // Fetch error logs with React Query
-const { data, isLoading, isError, error } = useQuery({
-  queryKey: ['errorLogs', query], // This is good - it will refetch when query changes
-  queryFn: () => service!.searchErrorLogs(query, { skipAuth: !requireAuth, skipRefresh: !requireAuth }),
-  initialData: initialQuery && 'items' in initialQuery ? initialQuery as any : undefined,
-  // Add these options:
-  refetchOnMount: true,
-  refetchOnWindowFocus: false, // Only refetch when explicitly triggered
-  staleTime: 30000, // Consider data fresh for 30 seconds
-});
+    const { data, isLoading, isError, error } = useQuery({
+        queryKey: ['errorLogs', query], // This is good - it will refetch when query changes
+        queryFn: () => service!.searchErrorLogs(query, { skipAuth: !requireAuth, skipRefresh: !requireAuth }),
+        initialData: initialQuery && 'items' in initialQuery ? initialQuery as any : undefined,
+        // Add these options:
+        refetchOnMount: true,
+        refetchOnWindowFocus: false, // Only refetch when explicitly triggered
+        staleTime: 30000, // Consider data fresh for 30 seconds
+    });
 
     // Sync URL with query state when query changes
     useEffect(() => {
@@ -82,6 +82,89 @@ const { data, isLoading, isError, error } = useQuery({
             updateUrl(query);
         }
     }, [query]);
+    // Add this effect to sync URL parameters back to state
+    useEffect(() => {
+        if (searchParams) {
+            const newQuery: ErrorLogQuery = { ...query };
+            let hasChanges = false;
+
+            // Parse page parameters
+            if (searchParams.has('page')) {
+                const pageIndex = Math.max(0, parseInt(searchParams.get('page') || '1') - 1);
+                if (newQuery.pageIndex !== pageIndex) {
+                    newQuery.pageIndex = pageIndex;
+                    hasChanges = true;
+                }
+            }
+
+            if (searchParams.has('pageSize')) {
+                const pageSize = parseInt(searchParams.get('pageSize') || '12');
+                if (newQuery.pageSize !== pageSize) {
+                    newQuery.pageSize = pageSize;
+                    hasChanges = true;
+                }
+            }
+
+            // Parse sorting
+            if (searchParams.has('orderBy')) {
+                const orderBy = searchParams.get('orderBy') || 'ErrorTime desc';
+                if (newQuery.orderBy !== orderBy) {
+                    newQuery.orderBy = orderBy;
+                    hasChanges = true;
+                }
+            }
+
+            // Parse text search
+            const text = searchParams.get('text') || undefined;
+            if (newQuery.text !== text) {
+                newQuery.text = text;
+                hasChanges = true;
+            }
+
+            // Parse dates
+            const errorTimeFrom = searchParams.get('errorTimeFrom') || undefined;
+            if (newQuery.errorTimeFrom !== errorTimeFrom) {
+                newQuery.errorTimeFrom = errorTimeFrom;
+                hasChanges = true;
+            }
+
+            const errorTimeTo = searchParams.get('errorTimeTo') || undefined;
+            if (newQuery.errorTimeTo !== errorTimeTo) {
+                newQuery.errorTimeTo = errorTimeTo;
+                hasChanges = true;
+            }
+
+            // Parse arrays
+            const severities = searchParams.getAll('errorSeverities');
+            if (severities.length > 0) {
+                const parsedSeverities = severities.map(s => parseInt(s));
+                if (!arraysEqual(newQuery.errorSeverities || [], parsedSeverities)) {
+                    newQuery.errorSeverities = parsedSeverities;
+                    hasChanges = true;
+                }
+            } else if (newQuery.errorSeverities?.length) {
+                newQuery.errorSeverities = undefined;
+                hasChanges = true;
+            }
+
+            const states = searchParams.getAll('errorStates');
+            if (states.length > 0) {
+                const parsedStates = states.map(s => parseInt(s));
+                if (!arraysEqual(newQuery.errorStates || [], parsedStates)) {
+                    newQuery.errorStates = parsedStates;
+                    hasChanges = true;
+                }
+            } else if (newQuery.errorStates?.length) {
+                newQuery.errorStates = undefined;
+                hasChanges = true;
+            }
+
+            // Only update if there are actual changes
+            if (hasChanges) {
+                setQuery(newQuery);
+            }
+        }
+    }, [searchParams]); // React to URL changes
 
     // Handle page change
     const handlePageChange = (_: React.ChangeEvent<unknown>, page: number) => {
