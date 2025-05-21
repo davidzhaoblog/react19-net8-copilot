@@ -2,6 +2,7 @@ using AdventureWorksLT2019.EFDbContext;
 using AdventureWorksLT2019.Models;
 using AdventureWorksLT2019.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdventureWorksLT2019.WebApi.Controllers
@@ -52,8 +53,8 @@ namespace AdventureWorksLT2019.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ErrorLog errorLog)
         {
-            if (id != errorLog.ErrorLogId)
-                return BadRequest("ID mismatch.");
+            //if (id != errorLog.ErrorLogId)
+            //    return BadRequest("ID mismatch.");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -61,6 +62,27 @@ namespace AdventureWorksLT2019.WebApi.Controllers
             var existingErrorLog = await _errorLogService.GetByIdAsync(id);
             if (existingErrorLog == null)
                 return NotFound($"ErrorLog with ID {id} not found.");
+
+            await _errorLogService.UpdateAsync(errorLog);
+            return NoContent();
+        }
+
+
+        [HttpPatch("{id}")]
+        [Consumes("application/json-patch+json")]
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<ErrorLog> patchDoc)
+        {
+            if (patchDoc == null)
+                return BadRequest();
+
+            var errorLog = await _errorLogService.GetByIdAsync(id);
+            if (errorLog == null)
+                return NotFound($"ErrorLog with ID {id} not found.");
+
+            patchDoc.ApplyTo(errorLog);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             await _errorLogService.UpdateAsync(errorLog);
             return NoContent();

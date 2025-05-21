@@ -17,7 +17,6 @@ interface AppLayoutProps {
 export default memo(function AppLayout({ children }: AppLayoutProps) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    console.log('isMobile:', isMobile);
 
     const [open, setOpen] = useState(false);
     const pathname = usePathname();

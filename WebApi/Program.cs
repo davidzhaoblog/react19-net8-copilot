@@ -36,7 +36,7 @@ builder.Services.AddRouting();
 builder.Services
     // TODO: should have a solution, e.g. an attribute on a controller class/method to Suppress ModalState validation
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
-    //.AddControllers()
+    .AddNewtonsoftJson()
     .AddJsonOptions(options => {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;

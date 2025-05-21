@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 export type ApiGet = <T>(url: string, options?: any) => Promise<T | null>;
 export type ApiPost = <T>(url: string, data?: any, options?: any) => Promise<T | null>;
 export type ApiPut = <T>(url: string, data?: any, options?: any) => Promise<T | null>;
+export type ApiPatch = <T>(url: string, data?: any, options?: any) => Promise<T | null>;
 export type ApiDelete = <T>(url: string, options?: any) => Promise<T | null>;
 
 export function useAuthenticatedApi() {

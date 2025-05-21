@@ -22,16 +22,26 @@ import {
     Select,
     MenuItem,
     Skeleton,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    IconButton,
 } from '@mui/material';
 import {
     Visibility as VisibilityIcon,
     Warning as WarningIcon,
     Error as ErrorIcon,
     Info as InfoIcon,
+    Edit as EditIcon,
+    Delete as DeleteIcon,
 } from '@mui/icons-material';
 import { format } from 'date-fns';
 import defaultErrorLogService, { useAuthenticatedErrorLogService } from '@/services/ErrorLogService';
 import { arraysEqual } from '@/utils/utilHelper';
+import Link from 'next/link';
 
 interface ErrorLogGridProps {
     initialQuery?: Partial<ErrorLogQuery>;
@@ -343,98 +353,121 @@ export default function ErrorLogGrid({
             </Box>
 
             {data?.items && data.items.length > 0 ? (
-                <Grid container spacing={3}>
-                    {data.items.map((logItem: ErrorLog) => {
-                        const severityInfo = getSeverityInfo(logItem.errorSeverity);
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell onClick={() => handleSortChange('ErrorTime')}>
+                                    Time {query.orderBy?.startsWith('ErrorTime') === true ? (query.orderBy?.endsWith('asc') ? '↑' : '↓') : ''}
+                                </TableCell>
+                                <TableCell onClick={() => handleSortChange('UserName')}>
+                                    User {query.orderBy?.startsWith('UserName') === true ? (query.orderBy?.endsWith('asc') ? '↑' : '↓') : ''}
+                                </TableCell>
+                                <TableCell onClick={() => handleSortChange('ErrorMessage')}>
+                                    Message {query.orderBy?.startsWith('ErrorMessage') === true ? (query.orderBy?.endsWith('asc') ? '↑' : '↓') : ''}
+                                </TableCell>
+                                <TableCell onClick={() => handleSortChange('ErrorSeverity')}>
+                                    Severity {query.orderBy?.startsWith('ErrorSeverity') === true ? (query.orderBy?.endsWith('asc') ? '↑' : '↓') : ''}
+                                </TableCell>
+                                <TableCell onClick={() => handleSortChange('ErrorState')}>
+                                    State {query.orderBy?.startsWith('ErrorState') === true ? (query.orderBy?.endsWith('asc') ? '↑' : '↓') : ''}
+                                </TableCell>
+                                <TableCell onClick={() => handleSortChange('ErrorProcedure')}>
+                                    Procedure {query.orderBy?.startsWith('ErrorProcedure') === true ? (query.orderBy?.endsWith('asc') ? '↑' : '↓') : ''}
+                                </TableCell>
+                                <TableCell onClick={() => handleSortChange('ErrorLine')}>
+                                    Line {query.orderBy?.startsWith('ErrorLine') === true ? (query.orderBy?.endsWith('asc') ? '↑' : '↓') : ''}
+                                </TableCell>
+                                {showActions && <TableCell>Actions</TableCell>}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {data.items.map((logItem: ErrorLog) => {
+                                const severityInfo = getSeverityInfo(logItem.errorSeverity);
 
-                        return (
-                            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={logItem.errorLogId}>
-                                <Card
-                                    elevation={3}
-                                    className="h-full flex flex-col cursor-pointer hover:shadow-lg transition-shadow"
-                                    onClick={() => handleCardClick(logItem)}
-                                >
-                                    <CardContent className="flex-grow">
-                                        <Box className="flex justify-between items-start mb-2">
+                                return (
+                                    <TableRow
+                                        key={logItem.errorLogId}
+                                        sx={{
+                                            cursor: onLogClick || showActions ? 'pointer' : 'default',
+                                            '&:hover': { bgcolor: 'action.hover' }
+                                        }}
+                                        onClick={() => {
+                                            if (onLogClick) {
+                                                onLogClick(logItem);
+                                            } else if (showActions) {
+                                                // Navigate to detail page
+                                                router.push(`/${locale}/Admin/ErrorLogs/${logItem.errorLogId}`);
+                                            }
+                                        }}
+                                    >
+                                        <TableCell>
                                             <Chip
                                                 icon={severityInfo.icon}
                                                 label={`${severityInfo.label} ${logItem.errorSeverity || ''}`}
                                                 color={severityInfo.color as any}
                                                 size="small"
                                             />
-                                            <Typography variant="caption" className="text-gray-500">
-                                                #{logItem.errorLogId}
-                                            </Typography>
-                                        </Box>
-
-                                        <Typography variant="subtitle2" className="font-bold mb-1">
+                                        </TableCell>
+                                        <TableCell>
                                             {format(new Date(logItem.errorTime), 'yyyy-MM-dd HH:mm:ss')}
-                                        </Typography>
-
-                                        <Typography variant="body2" className="text-gray-600 mb-2">
-                                            User: {logItem.userName}
-                                        </Typography>
-
-                                        {logItem.errorProcedure && (
-                                            <Typography variant="body2" className="text-gray-600 mb-2">
-                                                Procedure: {logItem.errorProcedure}
-                                            </Typography>
-                                        )}
-
-                                        <Typography
-                                            variant="body2"
-                                            className="line-clamp-3 mb-2"
-                                            title={logItem.errorMessage}
-                                        >
+                                        </TableCell>
+                                        <TableCell>
+                                            {logItem.userName}
+                                        </TableCell>
+                                        <TableCell>
                                             {logItem.errorMessage}
-                                        </Typography>
-
-                                        <Box className="flex flex-wrap gap-2 mt-1">
-                                            {logItem.errorNumber && (
-                                                <Chip
-                                                    label={`Error #${logItem.errorNumber}`}
+                                        </TableCell>
+                                        <TableCell>
+                                            {logItem.errorSeverity}
+                                        </TableCell>
+                                        <TableCell>
+                                            {logItem.errorState}
+                                        </TableCell>
+                                        <TableCell>
+                                            {logItem.errorProcedure}
+                                        </TableCell>
+                                        <TableCell>
+                                            {logItem.errorLine}
+                                        </TableCell>
+                                        {showActions && (
+                                            <TableCell>
+                                                <IconButton
+                                                    component={Link}
+                                                    href={`/${locale}/Admin/ErrorLogs/${logItem.errorLogId}`}
                                                     size="small"
-                                                    variant="outlined"
-                                                />
-                                            )}
-
-                                            {logItem.errorLine && (
-                                                <Chip
-                                                    label={`Line ${logItem.errorLine}`}
+                                                    onClick={(e) => e.stopPropagation()} // Prevent row click from firing
+                                                    aria-label="view details"
+                                                >
+                                                    <VisibilityIcon fontSize="small" />
+                                                </IconButton>
+                                                <IconButton
+                                                    component={Link}
+                                                    href={`/${locale}/Admin/ErrorLogs/${logItem.errorLogId}/Edit`}
                                                     size="small"
-                                                    variant="outlined"
-                                                />
-                                            )}
-
-                                            {logItem.errorState && (
-                                                <Chip
-                                                    label={`State ${logItem.errorState}`}
+                                                    onClick={(e) => e.stopPropagation()} // Prevent row click from firing
+                                                    aria-label="edit"
+                                                >
+                                                    <EditIcon fontSize="small" />
+                                                </IconButton>
+                                                <IconButton
+                                                    component={Link}
+                                                    href={`/${locale}/Admin/ErrorLogs/${logItem.errorLogId}/Delete`}
                                                     size="small"
-                                                    variant="outlined"
-                                                />
-                                            )}
-                                        </Box>
-                                    </CardContent>
-
-                                    {showActions && (
-                                        <CardActions>
-                                            <Button
-                                                size="small"
-                                                startIcon={<VisibilityIcon />}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    router.push(`/${locale}/ErrorLogs/${logItem.errorLogId}`);
-                                                }}
-                                            >
-                                                View Details
-                                            </Button>
-                                        </CardActions>
-                                    )}
-                                </Card>
-                            </Grid>
-                        );
-                    })}
-                </Grid>
+                                                    onClick={(e) => e.stopPropagation()} // Prevent row click from firing
+                                                    aria-label="delete"
+                                                >
+                                                    <DeleteIcon fontSize="small" />
+                                                </IconButton>
+                                            </TableCell>
+                                        )}
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             ) : (
                 <Alert severity="info">No error logs found</Alert>
             )}

@@ -237,14 +237,44 @@
                 "title": "Settings",
                 "description": "Configure application settings and preferences."
             },
-                    "errorLogList": {
-            "title": "Error Log List",
-            "description": "View the latest error logs and system status.",
-            "logDetails": {
-                "title": "Log Details",
-                "description": "View detailed information about the selected error log."
-            }
-        }
-        }
+            "errorLogList": {
+                "title": "Error Log List",
+                "description": "View the latest error logs and system status.",
+                "logDetails": {
+                    "title": "Log Details",
+                    "description": "View detailed information about the selected error log."
+                }
+            },
+            "backToList": "Back to List",
+            "viewDetails": "View Details",
+            "errorDetailTitle": "Error Log Details",
+            "errorLoadingDetails": "Error loading log details",
+            "editErrorLog": "Edit Error Log",
+            "deleteErrorLog": "Delete Error Log",
+            "errorInformation": "Error Information",
+            "cancel": "Cancel",
+            "saveChanges": "Save Changes"
+        },
+        "fields": {
+            "errorState": "Error State",
+            "errorMessage": "Error Message",
+            "errorSeverity": "Error Severity",
+            "errorTime": "Error Time"
+        },
+        "state": {
+            "new": "New",
+            "in progress": "In Progress",
+            "resolved": "Resolved",
+            "closed": "Closed"
+        },
+
+        "severity": {
+            "info": "Info",
+            "notice": "notice",
+            "warning": "Warning",
+            "error": "Error",
+            "fatal": "Fatal"
+        },
+        "backToDetails": "Back to Details"
     }
 }

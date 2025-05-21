@@ -31,7 +31,7 @@ export default function AdminLayout({
             redirect(`/${locale}/Forbidden`);
         }
 
-        console.log("isExpired", tokenExpiry < Math.floor(Date.now() / 1000));
+        // console.log("isExpired", tokenExpiry < Math.floor(Date.now() / 1000));
         // // Check expiration
         // if (tokenExpiry < Math.floor(Date.now() / 1000)) {
         //     redirect(`/${locale}/Identity/Login?returnUrl=${encodeURIComponent(`/${locale}/Admin`)}`);
