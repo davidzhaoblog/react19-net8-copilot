@@ -30,7 +30,7 @@ import {
 import { useTranslations } from 'next-intl';
 
 import { useAuthenticatedErrorLogService } from '@/services/ErrorLogService';
-import { ErrorLog, errorStateOptions, errorSeverityOptions } from '@/types/errorLog';
+import { ErrorLog, errorStateOptions, errorSeverityOptions, UpdateErrorLogModel } from '@/types/errorLog';
 
 interface ErrorLogEditPageProps {
     params: {
@@ -62,7 +62,7 @@ export default function ErrorLogEditPage({ params }: ErrorLogEditPageProps) {
     // Update mutation
     const updateMutation = useMutation({
         mutationFn: (patchedLog: UpdateErrorLogModel) =>
-            errorLogService.patchErrorLog(errorLogId, patchedLog),
+            errorLogService.patchErrorLog(errorLogId, errorLog, patchedLog),
         onSuccess: () => {
             // Navigate back to the error log details page
             router.push(`/${locale}/Admin/ErrorLogs/${errorLogId}`);

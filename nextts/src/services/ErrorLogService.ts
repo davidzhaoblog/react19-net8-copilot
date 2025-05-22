@@ -1,3 +1,4 @@
+import { compare, Operation } from 'fast-json-patch';
 // src/services/ErrorLogService.ts
 import { CreateErrorLogModel, ErrorLog, ErrorLogQuery, PagedResult, UpdateErrorLogModel } from '@/types';
 import { get, post, put, patch, del } from '@/utils/fetchClient';
@@ -100,21 +101,28 @@ class ErrorLogService {
     /**
      * Update an existing error log
      */
-    async patchErrorLog(id: number, errorLog: UpdateErrorLogModel): Promise<ErrorLog> {
+    async patchErrorLog(id: number, existingErrorLog: ErrorLog | undefined | null, newErrorLog: UpdateErrorLogModel): Promise<ErrorLog> {
         const url = `${AUTH_API_BASE_URL}${this.baseEndpoint}/${id}`;
 
         // Convert the partial object to JSON Patch operations
-        const patchOperations = Object.entries(errorLog).map(([key, value]) => ({
-            op: "replace",
-            path: `/${key}`,
-            value: value
-        }));
+        const patchOperations: Operation[] = 
+            !existingErrorLog  != undefined && existingErrorLog != null
+                ? compare(existingErrorLog, {
+                    ...existingErrorLog,
+                    ...newErrorLog
+                })
+                : compare({}, newErrorLog);
 
-        const result = await this.patchFn<ErrorLog>(url, patchOperations);
-        if (!result) {
-            throw new Error(`Failed to update error log with ID ${id}`);
+        // Only send if there are actual changes
+        if (patchOperations.length > 0) {
+            const result = await this.patchFn<ErrorLog>(url, patchOperations);
+            if (!result) {
+                throw new Error(`Failed to update error log with ID ${id}`);
+            }
+            return result;
         }
-        return result;
+
+        return existingErrorLog ?? newErrorLog as ErrorLog;
     }
 
     /**
@@ -154,7 +162,7 @@ export const getServerErrorLog = async (id: number): Promise<ErrorLog> => { retu
 export const deleteServerErrorLog = async (id: number): Promise<boolean> => { return await defaultService.deleteErrorLog(id, { skipAuth: true, skipRefresh: true }); }
 export const resolveServerErrorLog = async (id: number): Promise<boolean> => { return await defaultService.resolveErrorLog(id, { skipAuth: true, skipRefresh: true }); }
 export const updateServerErrorLog = async (id: number, errorLog: UpdateErrorLogModel): Promise<ErrorLog> => { return await defaultService.updateErrorLog(id, errorLog); }
-export const patchServerErrorLog = async (id: number, errorLog: UpdateErrorLogModel): Promise<ErrorLog> => { return await defaultService.patchErrorLog(id, errorLog); }
+export const patchServerErrorLog = async (id: number, existingErrorLog: ErrorLog | undefined, newErrorLog: UpdateErrorLogModel): Promise<ErrorLog> => { return await defaultService.patchErrorLog(id, existingErrorLog, newErrorLog); }
 
 // For authenticated client-side usage
 import { useAuthenticatedApi } from '@/hooks/useAuthenticatedApi';
