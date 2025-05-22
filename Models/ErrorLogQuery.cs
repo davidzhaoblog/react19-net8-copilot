@@ -7,8 +7,8 @@ namespace AdventureWorksLT2019.Models
         public string? Text { get; set; } // For UserName, ErrorMessage, ErrorProcedure, Note
         public DateTime? ErrorTimeFrom { get; set; }
         public DateTime? ErrorTimeTo { get; set; }
-        public List<int>? ErrorSeverities { get; set; }
-        public List<int>? ErrorStates { get; set; }
+        public List<ErrorLogSeverity>? ErrorSeverities { get; set; }
+        public List<ErrorLogState>? ErrorStates { get; set; }
 
         // New range criteria for LastUpdated
         public DateTime? LastUpdatedFrom { get; set; }

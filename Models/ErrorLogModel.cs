@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdventureWorksLT2019.Shared;
+using System;
 using System.Collections.Generic;
 
 namespace AdventureWorksLT2019.Models;
@@ -31,12 +32,12 @@ public partial class ErrorLogModel
     /// <summary>
     /// The severity of the error that occurred.
     /// </summary>
-    public int? ErrorSeverity { get; set; }
+    public ErrorLogSeverity? ErrorSeverity { get; set; }
 
     /// <summary>
     /// The state number of the error that occurred.
     /// </summary>
-    public int? ErrorState { get; set; }
+    public ErrorLogState? ErrorState { get; set; }
 
     /// <summary>
     /// The name of the stored procedure or trigger where the error occurred.

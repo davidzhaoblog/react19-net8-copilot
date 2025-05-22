@@ -9,6 +9,11 @@ export interface ErrorLog {
   errorProcedure?: string;
   errorLine?: number;
   errorMessage: string;
+    
+  // Add the new properties to match C# model
+  note?: string;                // Maps to Note in C# model
+  lastUpdated?: string;         // DateTime stored as ISO string
+  assignedTo?: string;          // Foreign key to AspNetUsers table
 }
 
 export interface ErrorLogQuery {
@@ -20,6 +25,11 @@ export interface ErrorLogQuery {
   pageSize?: number;
   pageIndex?: number;
   orderBy?: string;
+    
+  // Add new query parameters
+  lastUpdatedFrom?: string;     // DateTime stored as ISO string
+  lastUpdatedTo?: string;       // DateTime stored as ISO string
+  assignedToUsers?: string[];   // Maps to AssignedToUsers in C# model
 }
 
 export enum ErrorLogSeverity {
