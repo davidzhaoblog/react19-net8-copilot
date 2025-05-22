@@ -321,6 +321,11 @@ public partial class AdventureWorksLT2019Context : DbContext
                 .HasComment("The user who executed the batch in which the error occurred.");
             entity.Property(e => e.Note)
                 .HasColumnType("varchar(2000)");
+
+            entity.HasOne(d => d.AssignedToUser)
+                .WithMany(p => p.AssignedErrorLogs)
+                .HasForeignKey(d => d.AssignedTo)
+                .HasConstraintName("FK_ErrorLog_AspNetUser_AssginedTo");
         });
 
         modelBuilder.Entity<Product>(entity =>

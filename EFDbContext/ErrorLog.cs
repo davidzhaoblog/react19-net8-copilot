@@ -57,4 +57,8 @@ public partial class ErrorLog
     // Add these two properties:
     public string? Note { get; set; } // varchar(2000)
     public DateTime? LastUpdated { get; set; } // DateTime, nullable if you want
+
+    public string? AssignedTo { get; set; } // Foreign key to AspNetUsers table
+
+    public virtual AspNetUser? AssignedToUser { get; set; }
 }

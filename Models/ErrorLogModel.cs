@@ -52,4 +52,9 @@ public partial class ErrorLogModel
     /// The message text of the error that occurred.
     /// </summary>
     public string ErrorMessage { get; set; } = null!;
+
+    public string? Note { get; set; } // varchar(2000)
+    public DateTime? LastUpdated { get; set; } // DateTime
+
+    public string? AssignedTo { get; set; } // Foreign key to AspNetUsers table
 }

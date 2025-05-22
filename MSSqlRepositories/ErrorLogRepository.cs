@@ -93,7 +93,8 @@ namespace AdventureWorksLT2019.MSSqlRepositories
                 q = q.Where(e =>
                     e.UserName.Contains(query.Text) ||
                     e.ErrorMessage.Contains(query.Text) ||
-                    (e.ErrorProcedure != null && e.ErrorProcedure.Contains(query.Text)));
+                    (e.ErrorProcedure != null && e.ErrorProcedure.Contains(query.Text)) ||
+                    (e.Note != null && e.Note.Contains(query.Text)));
             }
 
             if (query.ErrorTimeFrom.HasValue)
@@ -107,6 +108,17 @@ namespace AdventureWorksLT2019.MSSqlRepositories
 
             if (query.ErrorStates != null && query.ErrorStates.Any())
                 q = q.Where(e => query.ErrorStates.Contains(e.ErrorState ?? 0));
+
+
+            if (query.LastUpdatedFrom.HasValue)
+                q = q.Where(e => e.LastUpdated >= query.LastUpdatedFrom.Value);
+
+            if (query.LastUpdatedTo.HasValue)
+                q = q.Where(e => e.LastUpdated <= query.LastUpdatedTo.Value);
+            
+            if (query.AssignedToUsers != null && query.AssignedToUsers.Any())
+                q = q.Where(e => !string.IsNullOrEmpty(e.AssignedTo) && query.AssignedToUsers.Contains(e.AssignedTo) || string.IsNullOrEmpty(e.AssignedTo) && (query.AssignedToUsers.Contains(string.Empty)));
+
             return q;
         }
     }
