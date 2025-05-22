@@ -319,6 +319,8 @@ public partial class AdventureWorksLT2019Context : DbContext
             entity.Property(e => e.UserName)
                 .HasMaxLength(128)
                 .HasComment("The user who executed the batch in which the error occurred.");
+            entity.Property(e => e.Note)
+                .HasColumnType("varchar(2000)");
         });
 
         modelBuilder.Entity<Product>(entity =>

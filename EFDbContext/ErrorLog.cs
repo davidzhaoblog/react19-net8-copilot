@@ -52,4 +52,9 @@ public partial class ErrorLog
     /// The message text of the error that occurred.
     /// </summary>
     public string ErrorMessage { get; set; } = null!;
+
+
+    // Add these two properties:
+    public string? Note { get; set; } // varchar(2000)
+    public DateTime? LastUpdated { get; set; } // DateTime, nullable if you want
 }
