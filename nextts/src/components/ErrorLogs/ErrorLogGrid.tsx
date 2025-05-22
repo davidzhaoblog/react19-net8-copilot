@@ -40,7 +40,7 @@ import {
 } from '@mui/icons-material';
 import { format } from 'date-fns';
 import defaultErrorLogService, { useAuthenticatedErrorLogService } from '@/services/ErrorLogService';
-import { arraysEqual } from '@/utils/utilHelper';
+import { arraysEqual } from '@/utils/arrayHelper';
 import Link from 'next/link';
 
 interface ErrorLogGridProps {
@@ -53,7 +53,8 @@ interface ErrorLogGridProps {
 }
 
 export default function ErrorLogGrid({
-    initialQuery = {},
+    initialQuery = {}
+    ,
     title = 'Error Logs',
     showActions = false,
     onLogClick,

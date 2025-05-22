@@ -1,3 +1,5 @@
+import { createOptionsFromEnum } from '@/utils/enumHelper';
+
 // src/types/errorLog.ts
 export interface ErrorLog {
   errorLogId: number;
@@ -15,6 +17,13 @@ export interface ErrorLog {
   lastUpdated?: string;         // DateTime stored as ISO string
   assignedTo?: string;          // Foreign key to AspNetUsers table
 }
+
+
+// Type for creating a new error log
+export type CreateErrorLogModel = Omit<ErrorLog, 'errorLogId'>;
+
+// Type for updating an error log (all fields optional)
+export type UpdateErrorLogModel = Partial<ErrorLog>;
 
 export interface ErrorLogQuery {
   text?: string;
@@ -47,17 +56,13 @@ export enum ErrorLogState {
   Closed = 3
 }
 
-export const errorSeverityOptions = [
-  { value: 1, label: 'Info' },
-  { value: 2, label: 'Notice' },
-  { value: 3, label: 'Warning' },
-  { value: 4, label: 'Error' },
-  { value: 5, label: 'Fatal' }
-];
+// Generate options with custom label formatting
+export const errorSeverityOptions = createOptionsFromEnum(
+  ErrorLogSeverity,
+  label => label // Keep as is
+);
 
-export const errorStateOptions = [
-  { value: 0, label: 'New' },
-  { value: 1, label: 'In Progress' },
-  { value: 2, label: 'Resolved' },
-  { value: 3, label: 'Closed' }
-];
+export const errorStateOptions = createOptionsFromEnum(
+  ErrorLogState,
+  label => label.replace(/([A-Z])/g, ' $1').trim() // Format InProgress → In Progress
+);

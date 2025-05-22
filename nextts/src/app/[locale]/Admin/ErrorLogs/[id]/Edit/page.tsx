@@ -49,7 +49,7 @@ export default function ErrorLogEditPage({ params }: ErrorLogEditPageProps) {
     const errorLogService = useAuthenticatedErrorLogService();
 
     // Form state
-    const [formState, setFormState] = useState<Partial<ErrorLog>>({});
+    const [formState, setFormState] = useState<UpdateErrorLogModel>({});
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
     // Fetch the error log data
@@ -61,7 +61,7 @@ export default function ErrorLogEditPage({ params }: ErrorLogEditPageProps) {
 
     // Update mutation
     const updateMutation = useMutation({
-        mutationFn: (patchedLog: Partial<ErrorLog>) =>
+        mutationFn: (patchedLog: UpdateErrorLogModel) =>
             errorLogService.patchErrorLog(errorLogId, patchedLog),
         onSuccess: () => {
             // Navigate back to the error log details page
@@ -124,7 +124,7 @@ export default function ErrorLogEditPage({ params }: ErrorLogEditPageProps) {
             return;
         }
         
-        const changes: Partial<ErrorLog> = {
+        const changes: UpdateErrorLogModel = {
             errorState: formState.errorState,
             errorSeverity: formState.errorSeverity
         };

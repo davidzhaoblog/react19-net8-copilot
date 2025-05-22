@@ -1,5 +1,5 @@
 // src/services/ErrorLogService.ts
-import { ErrorLog, ErrorLogQuery, PagedResult } from '@/types';
+import { CreateErrorLogModel, ErrorLog, ErrorLogQuery, PagedResult, UpdateErrorLogModel } from '@/types';
 import { get, post, put, patch, del } from '@/utils/fetchClient';
 import { ApiGet, ApiPost, ApiPut, ApiDelete } from '@/hooks/useAuthenticatedApi';
 
@@ -76,7 +76,7 @@ class ErrorLogService {
     /**
      * Create a new error log
      */
-    async createErrorLog(errorLog: Omit<ErrorLog, 'errorLogId'>): Promise<ErrorLog> {
+    async createErrorLog(errorLog: CreateErrorLogModel): Promise<ErrorLog> {
         const url = `${AUTH_API_BASE_URL}${this.baseEndpoint}`;
         const result = await this.postFn<ErrorLog>(url, errorLog);
         if (!result) {
@@ -88,7 +88,7 @@ class ErrorLogService {
     /**
      * Update an existing error log
      */
-    async updateErrorLog(id: number, errorLog: Partial<ErrorLog>): Promise<ErrorLog> {
+    async updateErrorLog(id: number, errorLog: UpdateErrorLogModel): Promise<ErrorLog> {
         const url = `${AUTH_API_BASE_URL}${this.baseEndpoint}/${id}`;
         const result = await this.putFn<ErrorLog>(url, errorLog);
         if (!result) {
@@ -100,7 +100,7 @@ class ErrorLogService {
     /**
      * Update an existing error log
      */
-    async patchErrorLog(id: number, errorLog: Partial<ErrorLog>): Promise<ErrorLog> {
+    async patchErrorLog(id: number, errorLog: UpdateErrorLogModel): Promise<ErrorLog> {
         const url = `${AUTH_API_BASE_URL}${this.baseEndpoint}/${id}`;
 
         // Convert the partial object to JSON Patch operations
@@ -153,8 +153,8 @@ export const getServerErrorLogs = (query: ErrorLogQuery = {}) => defaultService.
 export const getServerErrorLog = async (id: number): Promise<ErrorLog> => { return await defaultService.getErrorLog(id, { skipAuth: true, skipRefresh: true }); };
 export const deleteServerErrorLog = async (id: number): Promise<boolean> => { return await defaultService.deleteErrorLog(id, { skipAuth: true, skipRefresh: true }); }
 export const resolveServerErrorLog = async (id: number): Promise<boolean> => { return await defaultService.resolveErrorLog(id, { skipAuth: true, skipRefresh: true }); }
-export const updateServerErrorLog = async (id: number, errorLog: Partial<ErrorLog>): Promise<ErrorLog> => { return await defaultService.updateErrorLog(id, errorLog); }
-export const patchServerErrorLog = async (id: number, errorLog: Partial<ErrorLog>): Promise<ErrorLog> => { return await defaultService.patchErrorLog(id, errorLog); }
+export const updateServerErrorLog = async (id: number, errorLog: UpdateErrorLogModel): Promise<ErrorLog> => { return await defaultService.updateErrorLog(id, errorLog); }
+export const patchServerErrorLog = async (id: number, errorLog: UpdateErrorLogModel): Promise<ErrorLog> => { return await defaultService.patchErrorLog(id, errorLog); }
 
 // For authenticated client-side usage
 import { useAuthenticatedApi } from '@/hooks/useAuthenticatedApi';
