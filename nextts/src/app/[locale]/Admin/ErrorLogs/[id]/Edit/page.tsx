@@ -170,7 +170,7 @@ export default function ErrorLogEditPage({ params }: ErrorLogEditPageProps) {
 
     return (
         // Fix 1: Set a fixed width directly on the container
-        <Box sx={{ maxWidth: '1200px', width: '100%', mx: 'auto', px: 2 }}>
+        <Box className="container mx-auto py-8">
             <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h4" component="h1">
                     {t('admin.editErrorLog') || 'Edit Error Log'}

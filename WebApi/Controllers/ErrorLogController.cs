@@ -68,6 +68,25 @@ namespace AdventureWorksLT2019.WebApi.Controllers
         }
 
 
+        // PUT: api/ErrorLog/{id}/Resolve
+        [HttpPut("{id}/Resolve")]
+        public async Task<IActionResult> Resolve(int id)
+        {
+            //if (id != errorLog.ErrorLogId)
+            //    return BadRequest("ID mismatch.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var existingErrorLog = await _errorLogService.GetByIdAsync(id);
+            if (existingErrorLog == null)
+                return NotFound($"ErrorLog with ID {id} not found.");
+            existingErrorLog.ErrorState = Shared.ErrorLogState.Resolved;
+            existingErrorLog.LastUpdated = DateTime.Now;
+            await _errorLogService.UpdateAsync(existingErrorLog);
+            return NoContent();
+        }
+
         [HttpPatch("{id}")]
         [Consumes("application/json-patch+json")]
         public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<ErrorLog> patchDoc)

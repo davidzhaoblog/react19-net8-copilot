@@ -253,13 +253,19 @@
             "deleteErrorLog": "Delete Error Log",
             "errorInformation": "Error Information",
             "cancel": "Cancel",
-            "saveChanges": "Save Changes"
+            "saveChanges": "Save Changes",
+            "markAsResolved": "Mark as Resolved"
         },
         "fields": {
+            "errorNumber": "Error Number",
             "errorState": "Error State",
             "errorMessage": "Error Message",
             "errorSeverity": "Error Severity",
-            "errorTime": "Error Time"
+            "errorTime": "Error Time",
+            "errorLine": "Error Line",
+            "assignedTo": "Assigned To",
+            "lastUpdated": "Last Updated",
+            "userName": "User Name"
         },
         "state": {
             "new": "New",
@@ -267,7 +273,6 @@
             "resolved": "Resolved",
             "closed": "Closed"
         },
-
         "severity": {
             "info": "Info",
             "notice": "notice",
@@ -275,6 +280,17 @@
             "error": "Error",
             "fatal": "Fatal"
         },
-        "backToDetails": "Back to Details"
+        "backToDetails": "Back to Details",
+        "notAssigned": "Not Assigned",
+        "notUpdated": "Not Updated",
+        "deletingErrorLog": "Deleting error log...",
+        "resolvingErrorLog": "Resolving error log...",
+        "errorDeleting": "Error deleting error log",
+        "errorResolving": "Error resolving error log",
+        "pleaseWait": "Please wait, you will be redirected automatically",
+        "confirmDelete": "Are you sure you want to delete this error log?",
+        "deleteConfirmation": "Delete Confirmation",
+        "delete": "Delete",
+        "cancel": "Cancel"
     }
 }

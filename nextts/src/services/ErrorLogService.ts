@@ -1,5 +1,6 @@
 import { compare, Operation } from 'fast-json-patch';
 // src/services/ErrorLogService.ts
+import { AUTH_API_BASE_URL } from '@/utils/constants';
 import { CreateErrorLogModel, ErrorLog, ErrorLogQuery, PagedResult, UpdateErrorLogModel } from '@/types';
 import { get, post, put, patch, del } from '@/utils/fetchClient';
 import { ApiGet, ApiPost, ApiPut, ApiDelete } from '@/hooks/useAuthenticatedApi';
@@ -34,12 +35,17 @@ class ErrorLogService {
         // Build query string
         const queryParams = new URLSearchParams();
 
+        // Existing query params
         if (params.text) queryParams.append('text', params.text);
         if (params.errorTimeFrom) queryParams.append('errorTimeFrom', params.errorTimeFrom);
         if (params.errorTimeTo) queryParams.append('errorTimeTo', params.errorTimeTo);
         if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
         if (params.pageIndex) queryParams.append('pageIndex', params.pageIndex.toString());
         if (params.orderBy) queryParams.append('orderBy', params.orderBy);
+
+        // New query params for added columns
+        if (params.lastUpdatedFrom) queryParams.append('lastUpdatedFrom', params.lastUpdatedFrom);
+        if (params.lastUpdatedTo) queryParams.append('lastUpdatedTo', params.lastUpdatedTo);
 
         // Handle arrays
         if (params.errorSeverities && params.errorSeverities.length > 0) {
@@ -53,6 +59,14 @@ class ErrorLogService {
                 queryParams.append('errorStates', state.toString());
             });
         }
+
+        // New array param for assignedToUsers
+        if (params.assignedToUsers && params.assignedToUsers.length > 0) {
+            params.assignedToUsers.forEach(user => {
+                queryParams.append('assignedToUsers', user);
+            });
+        }
+
         const url = `${AUTH_API_BASE_URL}${this.searchEndpoint}?${queryParams.toString()}`;
         const result = await this.getFn<PagedResult<ErrorLog>>(url, { skipAuth: options.skipAuth, skipRefresh: options.skipRefresh });
         if (!result) {
@@ -105,13 +119,17 @@ class ErrorLogService {
         const url = `${AUTH_API_BASE_URL}${this.baseEndpoint}/${id}`;
 
         // Convert the partial object to JSON Patch operations
-        const patchOperations: Operation[] = 
-            !existingErrorLog  != undefined && existingErrorLog != null
+        const patchOperations: Operation[] =
+            existingErrorLog !== undefined && existingErrorLog !== null
                 ? compare(existingErrorLog, {
                     ...existingErrorLog,
                     ...newErrorLog
                 })
-                : compare({}, newErrorLog);
+                : Object.entries(newErrorLog).map(([key, value]) => ({
+                    op: "replace",
+                    path: `/${key}`,
+                    value: value
+                })) as Operation[];
 
         // Only send if there are actual changes
         if (patchOperations.length > 0) {
@@ -142,6 +160,30 @@ class ErrorLogService {
         const result = await this.postFn<boolean>(url, {}, options);
         return result || false;
     }
+    
+    /**
+     * Assign an error log to a user
+     */
+    async assignErrorLog(id: number, userId: string): Promise<ErrorLog> {
+        const url = `${AUTH_API_BASE_URL}${this.baseEndpoint}/${id}/Assign`;
+        const result = await this.postFn<ErrorLog>(url, { assignedTo: userId });
+        if (!result) {
+            throw new Error(`Failed to assign error log with ID ${id}`);
+        }
+        return result;
+    }
+    
+    /**
+     * Update an error log note
+     */
+    async updateNote(id: number, note: string): Promise<ErrorLog> {
+        const url = `${AUTH_API_BASE_URL}${this.baseEndpoint}/${id}/Note`;
+        const result = await this.postFn<ErrorLog>(url, { note });
+        if (!result) {
+            throw new Error(`Failed to update note for error log with ID ${id}`);
+        }
+        return result;
+    }
 }
 
 // Create a singleton instance
@@ -163,10 +205,11 @@ export const deleteServerErrorLog = async (id: number): Promise<boolean> => { re
 export const resolveServerErrorLog = async (id: number): Promise<boolean> => { return await defaultService.resolveErrorLog(id, { skipAuth: true, skipRefresh: true }); }
 export const updateServerErrorLog = async (id: number, errorLog: UpdateErrorLogModel): Promise<ErrorLog> => { return await defaultService.updateErrorLog(id, errorLog); }
 export const patchServerErrorLog = async (id: number, existingErrorLog: ErrorLog | undefined, newErrorLog: UpdateErrorLogModel): Promise<ErrorLog> => { return await defaultService.patchErrorLog(id, existingErrorLog, newErrorLog); }
+export const assignServerErrorLog = async (id: number, userId: string): Promise<ErrorLog> => { return await defaultService.assignErrorLog(id, userId); }
+export const updateServerNote = async (id: number, note: string): Promise<ErrorLog> => { return await defaultService.updateNote(id, note); }
 
 // For authenticated client-side usage
 import { useAuthenticatedApi } from '@/hooks/useAuthenticatedApi';
-import { AUTH_API_BASE_URL } from '@/utils/constants';
 
 export function useAuthenticatedErrorLogService() {
     const api = useAuthenticatedApi();

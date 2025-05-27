@@ -27,9 +27,6 @@ interface ErrorLogDetailPageProps {
     };
 }
 
-// Force dynamic rendering for this page
-export const dynamic = 'force-dynamic';
-
 export default async function ErrorLogDetailPage({ params }: ErrorLogDetailPageProps) {
     const { locale, id } = await params;
     const errorLogId = parseInt(id);
@@ -89,7 +86,7 @@ export default async function ErrorLogDetailPage({ params }: ErrorLogDetailPageP
         const stateInfo = getStateInfo(errorLog.errorState);
 
         return (
-            <div className="container mx-auto py-8">
+            <Box className="container mx-auto py-8">
                 <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h4" component="h1">
                         {t('admin.errorDetailTitle') || 'Error Log Detail'}
@@ -139,7 +136,7 @@ export default async function ErrorLogDetailPage({ params }: ErrorLogDetailPageP
                                     {errorLog.userName || t('fields.anonymous') || 'Anonymous'}
                                 </Typography>
 
-                                {errorLog.errorProcedure && (
+                                {/* {errorLog.errorProcedure && (
                                     <>
                                         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                                             {t('fields.errorProcedure') || 'Procedure'}
@@ -148,7 +145,7 @@ export default async function ErrorLogDetailPage({ params }: ErrorLogDetailPageP
                                             {errorLog.errorProcedure}
                                         </Typography>
                                     </>
-                                )}
+                                )} */}
                             </Grid>
 
                             <Grid size={{ xs: 12, md: 6 }}>
@@ -170,14 +167,37 @@ export default async function ErrorLogDetailPage({ params }: ErrorLogDetailPageP
                                     </>
                                 )}
 
-                                {/* <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  {t('fields.lastUpdated') || 'Last Updated'}
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  {errorLog.lastUpdated 
-                    ? format(new Date(errorLog.lastUpdated), 'yyyy-MM-dd HH:mm:ss')
-                    : t('fields.notUpdatedYet') || 'Not updated yet'}
-                </Typography> */}
+                                {/* NEW FIELD: AssignedTo */}
+                                <Grid size={{ xs: 12, md: 6 }}>
+                                    <Typography variant="subtitle2" color="text.secondary">
+                                        {t('fields.assignedTo') || 'Assigned To'}
+                                    </Typography>
+                                    {errorLog.assignedTo ? (
+                                        <Chip
+                                            label={errorLog.assignedTo}
+                                            size="small"
+                                            color="primary"
+                                            variant="outlined"
+                                        />
+                                    ) : (
+                                        <Typography variant="body1" color="text.secondary" fontStyle="italic">
+                                            {t('notAssigned') || 'Not assigned'}
+                                        </Typography>
+                                    )}
+                                </Grid>
+                                {/* NEW FIELD: LastUpdated */}
+                                <Grid size={{ xs: 12, md: 6 }}>
+                                    <Typography variant="subtitle2" color="text.secondary">
+                                        {t('fields.lastUpdated') || 'Last Updated'}
+                                    </Typography>
+                                    {errorLog.lastUpdated ? (
+                                        <Typography variant="body1">{format(new Date(errorLog.lastUpdated), 'yyyy-MM-dd HH:mm:ss')}</Typography>
+                                    ) : (
+                                        <Typography variant="body1" color="text.secondary" fontStyle="italic">
+                                            {t('notUpdated') || 'Not updated'}
+                                        </Typography>
+                                    )}
+                                </Grid>
                             </Grid>
 
                             <Grid size={12}>
@@ -213,7 +233,7 @@ export default async function ErrorLogDetailPage({ params }: ErrorLogDetailPageP
                                 component={Link}
                                 href={`/${locale}/Admin/ErrorLogs/${id}/Edit`}
                             >
-                                {t('admin.editLog') || 'Edit Log'}
+                                {t('admin.editErrorLog') || 'Edit Log'}
                             </Button>
 
                             {/* Your existing buttons */}
@@ -234,19 +254,19 @@ export default async function ErrorLogDetailPage({ params }: ErrorLogDetailPageP
                                 startIcon={<DeleteIcon />}
                                 href={`/${locale}/Admin/ErrorLogs/${id}/Delete`}
                             >
-                                {t('admin.deleteLog') || 'Delete Log'}
+                                {t('admin.deleteErrorLog') || 'Delete Log'}
                             </Button>
                         </Box>
                     </Paper>
                 </HydrationBoundary>
-            </div>
+            </Box>
         );
     } catch (error) {
         console.error('Error fetching error log details:', error);
 
         // Handle error state
         return (
-            <div className="container mx-auto py-8">
+            <Box className="container mx-auto py-8">
                 <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h4" component="h1">
                         {t('admin.errorDetailTitle') || 'Error Log Detail'}
@@ -264,7 +284,7 @@ export default async function ErrorLogDetailPage({ params }: ErrorLogDetailPageP
                         {t('admin.errorLoadingDetails') || 'Error loading error log details. The requested error log may not exist or you may not have permission to view it.'}
                     </Typography>
                 </Paper>
-            </div>
+            </Box>
         );
     }
 }
