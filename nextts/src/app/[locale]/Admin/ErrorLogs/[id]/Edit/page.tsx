@@ -2,7 +2,7 @@
 // the width of GridContainer is changing when the selected value of the Select component inside the Grid changed.
 'use client';
 
-import React, { useState, useEffect } from 'react'; // Remove 'use' import
+import React, { useState, useEffect, use } from 'react'; // Remove 'use' import
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -33,14 +33,14 @@ import { useAuthenticatedErrorLogService } from '@/services/ErrorLogService';
 import { ErrorLog, errorStateOptions, errorSeverityOptions, UpdateErrorLogModel } from '@/types/errorLog';
 
 interface ErrorLogEditPageProps {
-    params: {
+    params: Promise<{
         locale: string;
         id: string;
-    };
+    }>;
 }
 
 export default function ErrorLogEditPage({ params }: ErrorLogEditPageProps) {
-    const { locale, id } = params;
+    const { locale, id } = use(params);
     const errorLogId = parseInt(id);
     const t = useTranslations('errorLogs');
     const router = useRouter();
